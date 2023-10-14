@@ -1,4 +1,5 @@
 using CarRental_WebApi.Data;
+using CarRental_WebApi.Services.CarService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddScoped<ICarService, CarService>();
 
 var app = builder.Build();
 
