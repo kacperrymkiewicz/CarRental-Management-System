@@ -7,5 +7,6 @@ namespace CarRental_WebApi.Services.CarService
     {
         Task<ServiceResponse<GetCarDto>> GetCar(int id);
         Task<ServiceResponse<List<GetCarDto>>> GetAllCars();
+        Task<ServiceResponse<List<GetCarDto>>> AddCar(AddCarDto newCar);
     }
 }

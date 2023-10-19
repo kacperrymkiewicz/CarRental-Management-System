@@ -1,8 +1,13 @@
-namespace CarRental_WebApi.Models
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CarRental_WebApi.Models;
+
+namespace CarRental_WebApi.Dtos.Car
 {
-    public class Car
+    public class AddCarDto
     {
-        public int Id { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
         public CarType Type { get; set; }

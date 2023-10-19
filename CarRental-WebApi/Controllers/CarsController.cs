@@ -21,5 +21,11 @@ namespace CarRental_WebApi.Controllers
         {
             return Ok(await _carService.GetAllCars());
         }
+
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<List<GetCarDto>>>> AddCar(AddCarDto newCar)
+        {
+            return Ok(await _carService.AddCar(newCar));
+        }
     }
 }

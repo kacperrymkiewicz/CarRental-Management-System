@@ -17,6 +17,7 @@ namespace CarRental_WebApi.Services.CarService
             _mapper = mapper;
         }
 
+
         public async Task<ServiceResponse<List<GetCarDto>>> GetAllCars()
         {
             var serviceResponse = new ServiceResponse<List<GetCarDto>>();
@@ -29,5 +30,16 @@ namespace CarRental_WebApi.Services.CarService
         {
             throw new NotImplementedException();
         }
+
+        public async Task<ServiceResponse<List<GetCarDto>>> AddCar(AddCarDto newCar)
+        {
+            var serviceResponse = new ServiceResponse<List<GetCarDto>>();
+            var car = _mapper.Map<Car>(newCar);
+            _context.Cars.Add(car);
+            await _context.SaveChangesAsync();
+            serviceResponse.Data = await _context.Cars.Select(c => _mapper.Map<GetCarDto>(c)).ToListAsync();
+            return serviceResponse;
+        }
+
     }
 }
