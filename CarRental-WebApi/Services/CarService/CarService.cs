@@ -41,5 +41,39 @@ namespace CarRental_WebApi.Services.CarService
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<GetCarDto>> UpdateCar(UpdateCarDto updatedCar)
+        {
+            var serviceResponse = new ServiceResponse<GetCarDto>();
+
+            try
+            {
+                var car = await _context.Cars.FirstOrDefaultAsync(c => c.Id == updatedCar.Id);
+                if (car is null)
+                    throw new Exception($"Nie znaleziono samochodu z ID: '{updatedCar.Id}'");
+
+                car.Brand = updatedCar.Brand;
+                car.Model = updatedCar.Model;
+                car.Type = updatedCar.Type;
+                car.RegistrationPlate = updatedCar.RegistrationPlate;
+                car.Engine = updatedCar.Engine;
+                car.FuelType = updatedCar.FuelType;
+                car.AvgFuelConsumption = updatedCar.AvgFuelConsumption;
+                car.Horsepower = updatedCar.Horsepower;
+                car.ProductionYear = updatedCar.ProductionYear;
+                car.Price = updatedCar.Price;
+                car.Status = updatedCar.Status;
+
+                await _context.SaveChangesAsync();
+                serviceResponse.Data = _mapper.Map<GetCarDto>(car);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+
     }
 }

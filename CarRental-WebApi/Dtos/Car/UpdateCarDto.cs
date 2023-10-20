@@ -2,8 +2,9 @@ using CarRental_WebApi.Models;
 
 namespace CarRental_WebApi.Dtos.Car
 {
-    public class AddCarDto
+    public class UpdateCarDto
     {
+        public int Id { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
         public CarType Type { get; set; }

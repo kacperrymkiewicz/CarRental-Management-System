@@ -27,5 +27,16 @@ namespace CarRental_WebApi.Controllers
         {
             return Ok(await _carService.AddCar(newCar));
         }
+
+        [HttpPut]
+        public async Task<ActionResult<ServiceResponse<List<GetCarDto>>>> UpdateCar(UpdateCarDto updatedCar)
+        {
+            var response = await _carService.UpdateCar(updatedCar);
+            if(response.Data is null) 
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
     }
 }
