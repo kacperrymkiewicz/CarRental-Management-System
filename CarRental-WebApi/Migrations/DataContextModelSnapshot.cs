@@ -35,9 +35,8 @@ namespace CarRental_WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("FuelType")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("FuelType")
+                        .HasColumnType("int");
 
                     b.Property<int>("Horsepower")
                         .HasColumnType("int");

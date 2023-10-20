@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental_WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231014205705_CreateRentalMigration")]
-    partial class CreateRentalMigration
+    [Migration("20231020143503_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,9 +27,22 @@ namespace CarRental_WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<float>("AvgFuelConsumption")
+                        .HasColumnType("float");
+
                     b.Property<string>("Brand")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<string>("Engine")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("FuelType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Horsepower")
+                        .HasColumnType("int");
 
                     b.Property<string>("Model")
                         .IsRequired()
@@ -45,9 +58,11 @@ namespace CarRental_WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<bool>("Status")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
