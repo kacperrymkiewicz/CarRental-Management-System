@@ -26,9 +26,23 @@ namespace CarRental_WebApi.Services.CarService
             return serviceResponse;
         }
 
-        public Task<ServiceResponse<GetCarDto>> GetCar(int id)
+        public async Task<ServiceResponse<GetCarDto>> GetCar(int id)
         {
-            throw new NotImplementedException();
+            var serviceResponse = new ServiceResponse<GetCarDto>();
+            try 
+            {
+                var car = await _context.Cars.FirstOrDefaultAsync(c => c.Id == id);
+                if (car is null)
+                    throw new Exception($"Nie znaleziono samochodu z ID: '{id}'");
+
+                serviceResponse.Data = _mapper.Map<GetCarDto>(car);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
 
         public async Task<ServiceResponse<List<GetCarDto>>> AddCar(AddCarDto newCar)
@@ -65,6 +79,30 @@ namespace CarRental_WebApi.Services.CarService
 
                 await _context.SaveChangesAsync();
                 serviceResponse.Data = _mapper.Map<GetCarDto>(car);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<List<GetCarDto>>> DeleteCar(int id)
+        {
+            var serviceResponse = new ServiceResponse<List<GetCarDto>>();
+
+            try
+            {
+                var car = await _context.Cars.FirstOrDefaultAsync(c => c.Id == id);
+                if (car is null)
+                    throw new Exception($"Nie znaleziono samochodu z ID: '{id}'");
+
+                _context.Cars.Remove(car);
+                await _context.SaveChangesAsync();
+
+                serviceResponse.Data = await _context.Cars.Select(c => _mapper.Map<GetCarDto>(c)).ToListAsync();
             }
             catch (Exception ex)
             {

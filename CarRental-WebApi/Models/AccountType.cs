@@ -9,5 +9,6 @@ namespace CarRental_WebApi.Models
         Employer = 2,
         Accountant = 3,
         Manager = 4,
+        Administrator = 5
     }
 }
