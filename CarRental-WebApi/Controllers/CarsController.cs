@@ -27,7 +27,12 @@ namespace CarRental_WebApi.Controllers
         [Route("{id}")]
         public async Task<ActionResult<ServiceResponse<GetCarDto>>> GetSingle(int id)
         {
-            return Ok(await _carService.GetCar(id));
+            var response = await _carService.GetCar(id);
+            if(!response.Success)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         [HttpPost]

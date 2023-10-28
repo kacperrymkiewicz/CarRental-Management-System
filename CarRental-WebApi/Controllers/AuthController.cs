@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CarRental_WebApi.Dtos.UserAuthentication;
 using CarRental_WebApi.Models;
 using CarRental_WebApi.Repositories.Authentication;
@@ -14,10 +15,10 @@ namespace CarRental_WebApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _authRepository;
+
         public AuthController(IAuthRepository authRepository)
         {
             _authRepository = authRepository;
-
         }
 
         [HttpPost]
@@ -25,7 +26,20 @@ namespace CarRental_WebApi.Controllers
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDto request)
         {
             var response = await _authRepository.Register(
-                new User { FirstName = request.FirstName, LastName = request.LastName, EmailAddress = request.EmailAddress, Address = request.Address }, 
+                new User
+                {
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    EmailAddress = request.EmailAddress,
+                    Address = new Address
+                    {
+                        ZipCode = request.Address.ZipCode,
+                        City = request.Address.City,
+                        Street = request.Address.Street,
+                        HouseNumber = request.Address.HouseNumber,
+                        PhoneNumber = request.Address.PhoneNumber
+                    }
+                },
                 request.Password
             );
 
