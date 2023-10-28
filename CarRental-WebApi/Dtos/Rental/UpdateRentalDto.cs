@@ -7,12 +7,13 @@ using CarRental_WebApi.Models;
 
 namespace CarRental_WebApi.Dtos.Rental
 {
-    public class GetRentalDto
+    public class UpdateRentalDto
     {
+        public int Id { get; set; }
         public DateTime PickupDate { get; set; }
         public DateTime ReturnDate { get; set; }
-        public User Customer { get; set; }
-        public GetCarDto Car { get; set; }
+        public int CustomerId { get; set; }
+        public int CarId { get; set; }
         public RentalStatus Status { get; set; }
     }
 }

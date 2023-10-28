@@ -1,6 +1,7 @@
 using CarRental_WebApi.Data;
 using CarRental_WebApi.Repositories.Authentication;
 using CarRental_WebApi.Services.CarService;
+using CarRental_WebApi.Services.RentalService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -25,6 +26,7 @@ builder.Services.AddSwaggerGen(c => {
 builder.Services.AddDbContext<DataContext>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<ICarService, CarService>();
+builder.Services.AddScoped<IRentalService, RentalService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => 
