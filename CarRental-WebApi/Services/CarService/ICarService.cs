@@ -6,7 +6,7 @@ namespace CarRental_WebApi.Services.CarService
     public interface ICarService
     {
         Task<ServiceResponse<GetCarDto>> GetCar(int id);
-        Task<ServiceResponse<List<GetCarDto>>> GetAllCars();
+        Task<ServiceResponse<List<GetCarDto>>> GetCars();
         Task<ServiceResponse<List<GetCarDto>>> AddCar(AddCarDto newCar);
         Task<ServiceResponse<GetCarDto>> UpdateCar(UpdateCarDto updatedCar);
         Task<ServiceResponse<List<GetCarDto>>> DeleteCar(int id);

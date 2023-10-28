@@ -18,7 +18,7 @@ namespace CarRental_WebApi.Services.CarService
         }
 
 
-        public async Task<ServiceResponse<List<GetCarDto>>> GetAllCars()
+        public async Task<ServiceResponse<List<GetCarDto>>> GetCars()
         {
             var serviceResponse = new ServiceResponse<List<GetCarDto>>();
             var cars = await _context.Cars.ToListAsync();

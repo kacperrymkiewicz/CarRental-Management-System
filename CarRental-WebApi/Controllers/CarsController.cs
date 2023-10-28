@@ -18,14 +18,14 @@ namespace CarRental_WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<GetCarDto>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetCarDto>>>> GetCars()
         {
-            return Ok(await _carService.GetAllCars());
+            return Ok(await _carService.GetCars());
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<ServiceResponse<GetCarDto>>> GetSingle(int id)
+        public async Task<ActionResult<ServiceResponse<GetCarDto>>> GetCar(int id)
         {
             var response = await _carService.GetCar(id);
             if(!response.Success)
