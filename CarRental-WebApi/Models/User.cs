@@ -10,5 +10,6 @@ namespace CarRental_WebApi.Models
         public byte[] PasswordSalt { get; set; }
         public AccountType AccountType { get; set; } = AccountType.Customer;
         public Address Address { get; set; }
+        public List<Rental>? Rentals { get; set; }
     }
 }
