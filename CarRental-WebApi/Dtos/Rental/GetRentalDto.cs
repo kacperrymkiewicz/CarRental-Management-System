@@ -12,7 +12,7 @@ namespace CarRental_WebApi.Dtos.Rental
     {
         public DateTime PickupDate { get; set; }
         public DateTime ReturnDate { get; set; }
-        public GetUserDto Customer { get; set; }
+        public GetRentalUserDto Customer { get; set; }
         public GetCarDto Car { get; set; }
         public RentalStatus Status { get; set; }
     }

@@ -18,6 +18,7 @@ namespace CarRental_WebApi.Helpers
             CreateMap<AddRentalDto, Rental>();
             CreateMap<GetUserDto, User>();
             CreateMap<User, GetUserDto>();
+            CreateMap<User, GetRentalUserDto>();
             CreateMap<GetAddressDto, Address>();
             CreateMap<Address, GetAddressDto>();
         }

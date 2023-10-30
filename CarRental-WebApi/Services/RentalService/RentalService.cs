@@ -24,7 +24,10 @@ namespace CarRental_WebApi.Services.RentalService
         public async Task<ServiceResponse<List<GetRentalDto>>> GetRentals()
         {
             var serviceResponse = new ServiceResponse<List<GetRentalDto>>();
-            var rentals = await _context.Rentals.ToListAsync();
+            var rentals = await _context.Rentals
+                .Include(r => r.Car)
+                .Include(r => r.Customer)
+                .ToListAsync();
             serviceResponse.Data = rentals.Select(r => _mapper.Map<GetRentalDto>(r)).ToList();
             return serviceResponse;
         }
@@ -34,7 +37,11 @@ namespace CarRental_WebApi.Services.RentalService
             var serviceResponse = new ServiceResponse<GetRentalDto>();
             try 
             {
-                var rental = await _context.Rentals.FirstOrDefaultAsync(r => r.Id == id);
+                var rental = await _context.Rentals
+                    .Include(r => r.Car)
+                    .Include(r => r.Customer)
+                    .FirstOrDefaultAsync(r => r.Id == id);
+
                 if (rental is null)
                     throw new Exception($"Nie znaleziono wynajmu z ID: '{id}'");
 
