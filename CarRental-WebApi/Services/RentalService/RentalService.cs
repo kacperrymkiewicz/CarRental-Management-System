@@ -59,9 +59,30 @@ namespace CarRental_WebApi.Services.RentalService
         {
             var serviceResponse = new ServiceResponse<List<GetRentalDto>>();
             var rental = _mapper.Map<Rental>(newRental);
-            _context.Rentals.Add(rental);
-            await _context.SaveChangesAsync();
-            serviceResponse.Data = await _context.Rentals.Select(r => _mapper.Map<GetRentalDto>(r)).ToListAsync();
+
+            try
+            {
+                if (rental.PickupDate >= rental.ReturnDate)
+                    throw new Exception("Data zwrotu nie może być wcześniejsza niż data odbioru");
+
+                var customer = await _context.Users.FirstOrDefaultAsync(u => u.Id == newRental.CustomerId);
+                if (customer is null)
+                    throw new Exception($"Nie znaleziono klienta z ID: '{newRental.CustomerId}'");
+
+                var car = await _context.Cars.FirstOrDefaultAsync(c => c.Id == newRental.CarId);
+                if (car is null)
+                    throw new Exception($"Nie znaleziono samochodu z ID: '{newRental.CarId}'");
+
+                _context.Rentals.Add(rental);
+                await _context.SaveChangesAsync();
+                serviceResponse.Data = await _context.Rentals.Select(r => _mapper.Map<GetRentalDto>(r)).ToListAsync();  
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
             return serviceResponse;
         }
 

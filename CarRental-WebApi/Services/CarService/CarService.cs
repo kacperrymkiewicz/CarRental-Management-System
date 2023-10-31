@@ -1,6 +1,7 @@
 using AutoMapper;
 using CarRental_WebApi.Data;
 using CarRental_WebApi.Dtos.Car;
+using CarRental_WebApi.Dtos.Reservation;
 using CarRental_WebApi.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -113,5 +114,20 @@ namespace CarRental_WebApi.Services.CarService
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<List<GetCarDto>>> GetAvailableCars(ReservationTermsDto rentalTerm)
+        {
+            var serviceResponse = new ServiceResponse<List<GetCarDto>>();
+
+            var rentals = await _context.Rentals.Where(r => r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate > rentalTerm.PickupDate).ToListAsync();
+            var cars = await _context.Cars.ToListAsync();
+            
+            foreach(var rental in rentals)
+            {
+                cars.Remove(rental.Car);
+            }
+
+            serviceResponse.Data = cars.Select(c => _mapper.Map<GetCarDto>(c)).ToList();
+            return serviceResponse;
+        }
     }
 }

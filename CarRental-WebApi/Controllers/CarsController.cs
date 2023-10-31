@@ -1,4 +1,5 @@
 using CarRental_WebApi.Dtos.Car;
+using CarRental_WebApi.Dtos.Reservation;
 using CarRental_WebApi.Models;
 using CarRental_WebApi.Services.CarService;
 using Microsoft.AspNetCore.Authorization;
@@ -63,6 +64,13 @@ namespace CarRental_WebApi.Controllers
                 return NotFound(response);
             }
             return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("Availability")]
+        public async Task<ActionResult<ServiceResponse<List<GetCarDto>>>> GetAvailableCars(ReservationTermsDto reservationTerms)
+        {
+            return Ok(await _carService.GetAvailableCars(reservationTerms));
         }
     }
 }
