@@ -118,13 +118,22 @@ namespace CarRental_WebApi.Services.CarService
         {
             var serviceResponse = new ServiceResponse<List<GetCarDto>>();
 
-            var rentals = await _context.Rentals.Where(r => r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate > rentalTerm.PickupDate).ToListAsync();
+            var rentals = await _context.Rentals
+                .Where(r => r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate.AddHours(1) > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled)
+                .ToListAsync();
             var cars = await _context.Cars.ToListAsync();
+            rentals.ForEach(r => cars.Remove(r.Car));
             
-            foreach(var rental in rentals)
-            {
-                cars.Remove(rental.Car);
-            }
+            // var availableCars = await _context.Cars
+            //     .Where(car => !_context.Rentals.All(r =>
+            //         r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled))
+            //     .ToListAsync();
+
+            // var cars = await _context.Cars.
+            //     Where(c => !_context.Rentals
+            //         .Where(r => r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate.AddHours(1) > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled)
+            //         .Any(r => r.CarId == c.Id))
+            //         .ToListAsync();
 
             serviceResponse.Data = cars.Select(c => _mapper.Map<GetCarDto>(c)).ToList();
             return serviceResponse;
