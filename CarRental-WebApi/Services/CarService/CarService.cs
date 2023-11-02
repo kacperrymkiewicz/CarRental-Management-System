@@ -117,9 +117,10 @@ namespace CarRental_WebApi.Services.CarService
         public async Task<ServiceResponse<List<GetCarDto>>> GetAvailableCars(ReservationTermsDto rentalTerm)
         {
             var serviceResponse = new ServiceResponse<List<GetCarDto>>();
+            int hourOffset = 1; // The time a car rental company needs for the inspection and preparation of the car for the next customer
 
             var rentals = await _context.Rentals
-                .Where(r => r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate.AddHours(1) > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled)
+                .Where(r => r.PickupDate.AddHours(-hourOffset) < rentalTerm.ReturnDate && r.ReturnDate.AddHours(hourOffset) > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled)
                 .ToListAsync();
             var cars = await _context.Cars.ToListAsync();
             rentals.ForEach(r => cars.Remove(r.Car));
@@ -145,6 +146,12 @@ namespace CarRental_WebApi.Services.CarService
             
             try
             {
+                if (rentalTerm.PickupDate >= rentalTerm.ReturnDate)
+                    throw new Exception("Data zwrotu nie może być wcześniejsza niż data odbioru");
+
+                if (rentalTerm.PickupDate < DateTime.Now)
+                    throw new Exception("Data odbioru nie może być starsza niż dzisiejsza data");
+
                 var car = await _context.Cars.FirstOrDefaultAsync(c => c.Id == id);
                 if (car is null)
                     throw new Exception($"Nie znaleziono samochodu z ID: '{id}'");
