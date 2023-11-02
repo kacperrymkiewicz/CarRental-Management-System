@@ -8,6 +8,7 @@ namespace CarRental_WebApi.Models
         Reserved,
         Rented,
         Returned,
+        Unreturned,
         Cancelled
     }
 }
