@@ -122,7 +122,7 @@ namespace CarRental_WebApi.Services.CarService
             var rentals = await _context.Rentals
                 .Where(r => r.PickupDate.AddHours(-hourOffset) < rentalTerm.ReturnDate && r.ReturnDate.AddHours(hourOffset) > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled)
                 .ToListAsync();
-            var cars = await _context.Cars.ToListAsync();
+            var cars = await _context.Cars.Where(c => c.Status).ToListAsync();
             rentals.ForEach(r => cars.Remove(r.Car));
             
             // var availableCars = await _context.Cars
