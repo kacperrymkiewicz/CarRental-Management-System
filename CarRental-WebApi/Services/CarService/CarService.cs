@@ -138,5 +138,28 @@ namespace CarRental_WebApi.Services.CarService
             serviceResponse.Data = cars.Select(c => _mapper.Map<GetCarDto>(c)).ToList();
             return serviceResponse;
         }
+
+        public async Task<ServiceResponse<bool>> CheckCarAvailability(int id, ReservationTermsDto rentalTerm)
+        {
+            var serviceResponse = new ServiceResponse<bool>();
+            
+            try
+            {
+                var car = await _context.Cars.FirstOrDefaultAsync(c => c.Id == id);
+                if (car is null)
+                    throw new Exception($"Nie znaleziono samochodu z ID: '{id}'");
+
+                var availableCars = await GetAvailableCars(rentalTerm);
+                serviceResponse.Data = availableCars.Data!.Any(c => c.Id == id);
+                // serviceResponse.Data = await _context.Rentals.AnyAsync(r => r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate.AddHours(1) > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled && r.CarId == id);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
     }
 }

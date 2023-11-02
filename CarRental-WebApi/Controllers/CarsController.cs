@@ -66,11 +66,18 @@ namespace CarRental_WebApi.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("Availability")]
-        public async Task<ActionResult<ServiceResponse<List<GetCarDto>>>> GetAvailableCars(ReservationTermsDto reservationTerms)
+        public async Task<ActionResult<ServiceResponse<List<GetCarDto>>>> GetAvailableCars([FromQuery] ReservationTermsDto reservationTerms)
         {
             return Ok(await _carService.GetAvailableCars(reservationTerms));
+        }
+
+        [HttpGet]
+        [Route("{id}/Availability")]
+        public async Task<ActionResult<ServiceResponse<bool>>> CheckCarAvailability(int id, [FromQuery] ReservationTermsDto reservationTerms)
+        {
+            return Ok(await _carService.CheckCarAvailability(id, reservationTerms));
         }
     }
 }
