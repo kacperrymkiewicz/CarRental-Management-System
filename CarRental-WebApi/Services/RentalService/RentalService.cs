@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarRental_WebApi.Data;
 using CarRental_WebApi.Dtos.Rental;
+using CarRental_WebApi.Dtos.Reservation;
 using CarRental_WebApi.Models;
+using CarRental_WebApi.Services.CarService;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRental_WebApi.Services.RentalService
@@ -14,11 +16,13 @@ namespace CarRental_WebApi.Services.RentalService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly ICarService _carService;
         
-        public RentalService(IMapper mapper, DataContext context)
+        public RentalService(IMapper mapper, DataContext context, ICarService carService)
         {
             _context = context;
             _mapper = mapper;
+            _carService = carService;
         }
 
         public async Task<ServiceResponse<List<GetRentalDto>>> GetRentals()
@@ -65,13 +69,17 @@ namespace CarRental_WebApi.Services.RentalService
                 if (rental.PickupDate >= rental.ReturnDate)
                     throw new Exception("Data zwrotu nie może być wcześniejsza niż data odbioru");
 
-                var customer = await _context.Users.FirstOrDefaultAsync(u => u.Id == newRental.CustomerId);
+                var customer = await _context.Users.FirstOrDefaultAsync(u => u.Id == rental.CustomerId);
                 if (customer is null)
-                    throw new Exception($"Nie znaleziono klienta z ID: '{newRental.CustomerId}'");
+                    throw new Exception($"Nie znaleziono klienta z ID: '{rental.CustomerId}'");
 
-                var car = await _context.Cars.FirstOrDefaultAsync(c => c.Id == newRental.CarId);
+                var car = await _context.Cars.FirstOrDefaultAsync(c => c.Id == rental.CarId);
                 if (car is null)
-                    throw new Exception($"Nie znaleziono samochodu z ID: '{newRental.CarId}'");
+                    throw new Exception($"Nie znaleziono samochodu z ID: '{rental.CarId}'");
+
+                var available = await _carService.CheckCarAvailability(car.Id, new ReservationTermsDto { PickupDate = rental.PickupDate, ReturnDate = rental.ReturnDate});
+                if (!available.Data)
+                    throw new Exception($"Samochód z ID: '{rental.CarId}' nie jest dostępny w terminie od '{rental.PickupDate}' do '{rental.ReturnDate}'");
 
                 _context.Rentals.Add(rental);
                 await _context.SaveChangesAsync();
