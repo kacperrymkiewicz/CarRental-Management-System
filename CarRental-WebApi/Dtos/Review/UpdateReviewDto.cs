@@ -14,7 +14,7 @@ namespace CarRental_WebApi.Dtos.Review
         [Range(1, 5)]
         public int Rating { get; set; }
         public DateTime Date { get; set; }
-        public GetUserDto Customer { get; set; }
-        public GetCarDto Car { get; set; }
+        public int CustomerId { get; set; }
+        public int CarId { get; set; }
     }
 }

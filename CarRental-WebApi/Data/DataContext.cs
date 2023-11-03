@@ -21,5 +21,6 @@ namespace CarRental_WebApi.Data
         public DbSet<User> Users => Set<User>();
         public DbSet<Car> Cars => Set<Car>();
         public DbSet<Rental> Rentals => Set<Rental>();
+        public DbSet<Review> Reviews => Set<Review>();
     }
 }

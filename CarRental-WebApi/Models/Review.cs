@@ -8,7 +8,9 @@ namespace CarRental_WebApi.Models
         [Range(1, 5)]
         public int Rating { get; set; }
         public DateTime Date { get; set; }
+        public int CustomerId { get; set; }
         public User Customer { get; set; }
+        public int CarId { get; set; }
         public Car Car { get; set; }
     }
 }

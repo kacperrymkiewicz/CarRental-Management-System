@@ -2,6 +2,7 @@ using CarRental_WebApi.Data;
 using CarRental_WebApi.Repositories.Authentication;
 using CarRental_WebApi.Services.CarService;
 using CarRental_WebApi.Services.RentalService;
+using CarRental_WebApi.Services.ReviewService;
 using CarRental_WebApi.Services.UserService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -29,6 +30,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRentalService, RentalService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => 

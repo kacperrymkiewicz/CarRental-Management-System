@@ -9,8 +9,9 @@ namespace CarRental_WebApi.Dtos.Review
 {
     public class GetReviewDto
     {
+        public int Id { get; set; }
         public int Rating { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public GetUserDto Customer { get; set; }
         public GetCarDto Car { get; set; }
     }
