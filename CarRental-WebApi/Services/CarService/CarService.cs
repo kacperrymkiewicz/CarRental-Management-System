@@ -168,5 +168,34 @@ namespace CarRental_WebApi.Services.CarService
 
             return serviceResponse;
         }
+
+        public async Task<ServiceResponse<GetCarRatingDto>> GetCarRating(int id)
+        {
+            var serviceResponse = new ServiceResponse<GetCarRatingDto>();
+
+            try
+            {
+                var car = await _context.Cars.FirstOrDefaultAsync(c => c.Id == id);
+                if (car is null)
+                    throw new Exception($"Nie znaleziono samochodu z ID: '{id}'");
+
+                var reviews = await _context.Reviews.Where(r => r.CarId == id).ToListAsync();
+                if (!reviews.Any())
+                    throw new Exception($"Nie znaleziono opinii dla samochodu z ID: '{id}'");
+
+                serviceResponse.Data = new GetCarRatingDto {
+                    AverageRating = reviews.Average(r => r.Rating),
+                    ReviewsAmount = reviews.Count,
+                    Car = _mapper.Map<GetCarDto>(car)
+                };
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
     }
 }

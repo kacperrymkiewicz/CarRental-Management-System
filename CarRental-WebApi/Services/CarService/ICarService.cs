@@ -14,5 +14,6 @@ namespace CarRental_WebApi.Services.CarService
         Task<ServiceResponse<List<GetCarDto>>> DeleteCar(int id);
         Task<ServiceResponse<List<GetCarDto>>> GetAvailableCars(ReservationTermsDto rentalTerm);
         Task<ServiceResponse<bool>> CheckCarAvailability(int id, ReservationTermsDto rentalTerm);
+        Task<ServiceResponse<GetCarRatingDto>> GetCarRating(int id);
     }
 }

@@ -79,5 +79,12 @@ namespace CarRental_WebApi.Controllers
         {
             return Ok(await _carService.CheckCarAvailability(id, reservationTerms));
         }
+
+        [HttpGet]
+        [Route("{id}/Rating")]
+        public async Task<ActionResult<ServiceResponse<GetCarRatingDto>>> GetCarRating(int id)
+        {
+            return Ok(await _carService.GetCarRating(id));
+        }
     }
 }

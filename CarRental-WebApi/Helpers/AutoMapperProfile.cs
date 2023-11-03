@@ -13,6 +13,7 @@ namespace CarRental_WebApi.Helpers
         public AutoMapperProfile()
         {
             CreateMap<Car, GetCarDto>();
+            CreateMap<GetCarDto, Car>();
             CreateMap<AddCarDto, Car>();
             CreateMap<Rental, GetRentalDto>();
             CreateMap<Rental, GetUserRentalsDto>();
