@@ -5,14 +5,14 @@
         <div class="col-md-12">
           <div class="footer-container d-flex flex-column align-items-center">
             <div class="footer-brand d-flex justify-content-center align-items-center">
-              <img src="../assets/images/logo.png" class="img-fluid" alt="Logo">
+              <img src="/frontend/images/logo.png" class="img-fluid" alt="Logo">
               <div class="footer-brand-text d-flex flex-column">
-                <span>Przychodnia</span>
-                <span>studencka</span>
+                <span>Wypożyczalnia</span>
+                <span>samochodów</span>
               </div>
             </div>
             <div class="footer-copyright">
-              <p>© 2023 Przychodnia Studencka</p>
+              <p>© 2023 Wypożyczalnia samochodów</p>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@
   <header>
     <nav class="navbar navbar-expand-md bg-body-tertiary">
       <div class="container-fluid">
-        <router-link to="/"><img src="../assets/images/logo.png" class="nav-logo" alt="Logo"></router-link>
+        <router-link to="/"><img src="/frontend/images/logo.png" class="nav-logo" alt="Logo"></router-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -12,7 +12,7 @@
               <router-link class="nav-link" active-class="active-logged-out" to="/">Strona główna</router-link>
             </li>
             <li class="nav-item"> 
-              <router-link class="nav-link" active-class="active-logged-out" to="/umow-wizyte">Umów wizytę</router-link>
+              <router-link class="nav-link" active-class="active-logged-out" to="/umow-wizyte">Wynajmij samochód</router-link>
             </li>
             <li class="d-md-none">
               <router-link class="nav-link" active-class="active-logged-out" to="/logowanie">Logowanie</router-link>
