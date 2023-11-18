@@ -23,7 +23,7 @@
 
 <style lang="scss" scoped>
   .footer-brand img {
-    width: 50px;
+    width: 65px;
     margin-right: 10px;
   }
   .footer-brand-text {
@@ -34,9 +34,9 @@
   }
 
   footer {
-    background-color: $primary;
-    color: $secondary;
-    padding: 30px 0;
+    background-color: $dark-background;
+    color: white;
+    padding: 45px 0;
     margin-top: 40px;
   }
 
