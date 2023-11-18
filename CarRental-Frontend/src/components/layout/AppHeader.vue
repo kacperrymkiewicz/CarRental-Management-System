@@ -18,7 +18,7 @@
               <router-link class="nav-link" active-class="active-logged-out" :to="{ name: 'cars' }">Flota</router-link>
             </li>
             <li class="d-md-none">
-              <router-link class="nav-link" active-class="active-logged-out" to="/logowanie">Logowanie</router-link>
+              <router-link class="nav-link" active-class="active-logged-out" :to="{ name: 'login' }">Logowanie</router-link>
             </li>
             <li class="d-md-none">
               <router-link class="nav-link" active-class="active-logged-out" to="/rejestracja">Rejestracja</router-link>
