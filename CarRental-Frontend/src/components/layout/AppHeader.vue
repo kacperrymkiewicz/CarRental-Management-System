@@ -9,10 +9,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-lg-0">
             <li class="nav-item">
-              <router-link class="nav-link" active-class="active-logged-out" to="/">Strona główna</router-link>
+              <router-link class="nav-link" active-class="active-logged-out" :to="{ name: 'home' }">Strona główna</router-link>
             </li>
             <li class="nav-item"> 
               <router-link class="nav-link" active-class="active-logged-out" to="/umow-wizyte">Wynajmij samochód</router-link>
+            </li>
+            <li class="nav-item"> 
+              <router-link class="nav-link" active-class="active-logged-out" :to="{ name: 'cars' }">Flota</router-link>
             </li>
             <li class="d-md-none">
               <router-link class="nav-link" active-class="active-logged-out" to="/logowanie">Logowanie</router-link>
