@@ -35,7 +35,7 @@
     color: $secondary;
 
     a {
-      color: $teal;
+      color: $dark-text;
     }
   }
 }
