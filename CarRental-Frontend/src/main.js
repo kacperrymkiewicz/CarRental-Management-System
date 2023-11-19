@@ -1,5 +1,6 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';
+import 'axios';
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -7,7 +8,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-import BaseButton from "@/components/BaseButton.vue";
+import BaseButton from '@/components/BaseButton.vue';
 
 const app = createApp(App)
 
