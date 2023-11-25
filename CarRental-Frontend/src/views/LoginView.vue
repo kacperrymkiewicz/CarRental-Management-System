@@ -1,21 +1,41 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useToast, TYPE } from "vue-toastification";
 import { useAuthStore } from '@/stores/auth.store';
+import { useUserStore } from '@/stores/user.store';
 const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const emailAddress = ref('');
 const password = ref('');
 
+const router = useRouter();
 const toast = useToast();
 
 const login = async () => {
   const authResponse = await authStore.authenticateUser(emailAddress.value, password.value);
-  console.log(authResponse);
   toast(authResponse.message, {
     type: authResponse.success ? TYPE.SUCCESS : TYPE.ERROR,
     timeout: 2000
   });
+
+  if(authResponse.success) {
+    userStore.decodeToken();
+    redirectAfterSuccessfullLogin();
+  }
+}
+
+const redirectAfterSuccessfullLogin = () => {
+  if(authStore.isAuthenticated && userStore.authorization == 'Customer'){
+      router.push({name: 'home'});
+  }
+  else if(authStore.isAuthenticated && userStore.authorization == 'Employer'){
+      router.push({name: 'home'})
+  }
+  else if(authStore.isAuthenticated && userStore.authorization == 'Administrator'){
+      router.push({name: 'home'})
+  }
 }
 </script>
 
