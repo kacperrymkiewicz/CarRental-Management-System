@@ -1,14 +1,21 @@
 <script setup>
 import { ref } from 'vue';
+import { useToast, TYPE } from "vue-toastification";
 import { useAuthStore } from '@/stores/auth.store';
 const authStore = useAuthStore();
 
 const emailAddress = ref('');
 const password = ref('');
 
+const toast = useToast();
+
 const login = async () => {
   const authResponse = await authStore.authenticateUser(emailAddress.value, password.value);
-  console.log(authResponse.message);
+  console.log(authResponse);
+  toast(authResponse.message, {
+    type: authResponse.success ? TYPE.SUCCESS : TYPE.ERROR,
+    timeout: 2000
+  });
 }
 </script>
 
