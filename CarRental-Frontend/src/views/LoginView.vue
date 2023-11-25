@@ -1,18 +1,32 @@
+<script setup>
+import { ref } from 'vue';
+import { useAuthStore } from '@/stores/auth.store';
+const authStore = useAuthStore();
+
+const emailAddress = ref('');
+const password = ref('');
+
+const login = async () => {
+  const authResponse = await authStore.authenticateUser(emailAddress.value, password.value);
+  console.log(authResponse.message);
+}
+</script>
+
 <template>
   <section id="login">
     <div class="container">
       <div class="row d-flex justify-content-center">
         <div class="inner-container col-sm-10 col-md-8 col-lg-6">
           <h1>Logowanie</h1>
-          <form>
+          <form @submit.prevent="login()">
             <div class="form-group d-flex flex-column align-items-center">
               <label for="email">Adres email</label>
-              <input type="email" class="form-control" id="email">
+              <input type="email" class="form-control" id="email" v-model="emailAddress">
             </div>
 
             <div class="form-group d-flex flex-column align-items-center">
               <label for="password">Hasło</label>
-              <input type="password" class="form-control" id="password">
+              <input type="password" class="form-control" id="password" v-model="password">
             </div>
             <base-button type="dark" :has-icon="true">Zaloguj się</base-button>
             <p>Nie masz konta? <router-link to="/rejestracja">Zarejestruj się</router-link></p>
