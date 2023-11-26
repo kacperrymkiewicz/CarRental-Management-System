@@ -27,13 +27,13 @@ const login = async () => {
 }
 
 const redirectAfterSuccessfullLogin = () => {
-  if(authStore.isAuthenticated && userStore.authorization == 'Customer'){
+  if(authStore.isAuthenticated && userStore.isCustomer){
       router.push({name: 'home'});
   }
-  else if(authStore.isAuthenticated && userStore.authorization == 'Employer'){
+  else if(authStore.isAuthenticated && userStore.isEmployer){
       router.push({name: 'home'})
   }
-  else if(authStore.isAuthenticated && userStore.authorization == 'Administrator'){
+  else if(authStore.isAuthenticated && userStore.isAdministrator){
       router.push({name: 'home'})
   }
 }
