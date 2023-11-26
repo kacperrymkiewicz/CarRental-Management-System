@@ -1,3 +1,32 @@
+<script setup>
+import IconDropDownMenuArrowDown from '@/components/icons/IconDropdownMenuArrowDown.vue'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useToast } from "vue-toastification";
+import { useAuthStore } from '@/stores/auth.store';
+import { useUserStore } from '@/stores/user.store';
+const authStore = useAuthStore();
+const userStore = useUserStore();
+
+const router = useRouter();
+const toast = useToast();
+
+let isDropdownMenuOpen = ref(false);
+
+const toggleDropdownMenu = () => {
+  isDropdownMenuOpen.value = !isDropdownMenuOpen.value;
+}
+
+const logout = () => {
+  userStore.$reset();
+  authStore.$reset();
+  router.push("/logowanie");
+  toast("Wylogowano pomyślnie", {
+    timeout: 2000
+  });
+}
+</script>
+
 <template>
   <header>
     <nav class="navbar navbar-expand-md bg-body-tertiary">
@@ -6,7 +35,83 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <div v-if="authStore.isAuthenticated" class="logged-in collapse navbar-collapse" id="navbarSupportedContent">
+          <ul v-if="userStore.isAdministrator" class="navbar-nav me-auto mb-lg-0">
+            <li class="nav-item">
+              <router-link class="nav-link" active-class="active-logged-in" to="/lekarz/pacjenci">Pacjenci</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" active-class="active-logged-in" to="/lekarz/kalendarz-wizyt">Kalendarz wizyt</router-link>
+            </li>
+          </ul>
+
+          <ul v-else-if="userStore.isEmployer" class="navbar-nav me-auto mb-lg-0">
+            <li class="nav-item">
+              <router-link class="nav-link" active-class="active-logged-in" to="/recepcja/wizyty">Wizyty</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" active-class="active-logged-in" to="/recepcja/pacjenci">Lista pacjentów</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" active-class="active-logged-in" to="/recepcja/lista-lekarzy">Lista lekarzy</router-link>
+            </li>
+          </ul>
+
+          <ul v-else class="navbar-nav me-auto mb-lg-0">
+            <li class="nav-item">
+              <router-link class="nav-link" active-class="active-logged-in" to="/">Strona główna</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" active-class="active-logged-in" to="/moje-wizyty">Wizyty</router-link>
+            </li>
+            <li class="nav-item"> 
+              <router-link class="nav-link" active-class="active-logged-in" to="/recepty">Recepty</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" active-class="active-logged-in" to="/umow-wizyte">Umów wizytę</router-link>
+            </li>
+          </ul>
+          
+          <div v-if="isDropdownMenuOpen" @click="toggleDropdownMenu" class="overlay"></div>
+          <div @click="toggleDropdownMenu" class="profile d-flex align-items-center">
+            <svg class="profile-icon" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="40" height="40" rx="20" fill="#5F6D7E"/>
+              <path d="M20 21.3334C21.8409 21.3334 23.3333 19.841 23.3333 18C23.3333 16.1591 21.8409 14.6667 20 14.6667C18.159 14.6667 16.6666 16.1591 16.6666 18C16.6666 19.841 18.159 21.3334 20 21.3334ZM20 21.3334C17.0544 21.3334 14.6666 23.1242 14.6666 25.3334M20 21.3334C22.9455 21.3334 25.3333 23.1242 25.3333 25.3334" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <div>
+              <p> {{ capitalizeFirstLetter(userStore.user.firstname) }} {{ capitalizeFirstLetter(userStore.user.lastname) }}</p>
+              <p> {{ userStore.user.authorization }}</p>
+            </div>
+            <IconDropDownMenuArrowDown/>
+            <div v-if="isDropdownMenuOpen" class="drop-down-menu">
+              <ul>
+                <router-link to="/profil" v-if="userStore.isCustomer">
+                  <li>
+                    <span>
+                      <svg width="18" height="21" viewBox="0 0 18 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.94 5.91249L7.94 2.16249C8.58854 1.75716 9.41146 1.75716 10.06 2.16249L16.06 5.91249C16.6448 6.27797 17 6.91891 17 7.60849V13.3915C17 14.0811 16.6448 14.722 16.06 15.0875L10.06 18.8375C9.41146 19.2428 8.58854 19.2428 7.94 18.8375L1.94 15.0875C1.35524 14.722 1 14.0811 1 13.3915V7.60849C1 6.91891 1.35524 6.27797 1.94 5.91249Z" stroke="#5F6D7E" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    </span>
+                    Mój profil
+                  </li>
+                </router-link>
+                <a href="#" @click="logout">
+                  <li>
+                    <span>
+                      <svg width="18" height="21" viewBox="0 0 18 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.94 5.91249L7.94 2.16249C8.58854 1.75716 9.41146 1.75716 10.06 2.16249L16.06 5.91249C16.6448 6.27797 17 6.91891 17 7.60849V13.3915C17 14.0811 16.6448 14.722 16.06 15.0875L10.06 18.8375C9.41146 19.2428 8.58854 19.2428 7.94 18.8375L1.94 15.0875C1.35524 14.722 1 14.0811 1 13.3915V7.60849C1 6.91891 1.35524 6.27797 1.94 5.91249Z" stroke="#5F6D7E" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    </span>
+                    Wyloguj
+                  </li>
+                </a>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" v-else>
           <ul class="navbar-nav me-auto mb-lg-0">
             <li class="nav-item">
               <router-link class="nav-link" active-class="active-logged-out" :to="{ name: 'home' }">Strona główna</router-link>
