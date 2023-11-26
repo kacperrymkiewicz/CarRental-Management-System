@@ -11,11 +11,9 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     setToken(token) {
       this.authToken = token;
-      localStorage.setItem('authToken', token);
     },
     removeToken() {
       this.authToken = null;
-      localStorage.removeItem('authToken');
     },
     async authenticateUser(emailAddress, password) {
       const responseStatus = { success: null, message: null }
@@ -42,5 +40,6 @@ export const useAuthStore = defineStore('auth', {
 
       return responseStatus;
     }
-  }
+  },
+  persist: true,
 })

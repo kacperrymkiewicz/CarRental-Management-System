@@ -4,16 +4,18 @@ import { jwtDecode } from 'jwt-decode';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    userId: null,
-    firstname: '',
-    lastname: '',
-    email: '',
-    authorization: '',
+    user: {
+      id: null,
+      firstname: '',
+      lastname: '',
+      email: '',
+      authorization: '',
+    },
   }),
   getters: {
-    isCustomer: (state) => state.authorization == 'Customer',
-    isEmployer: (state) => state.authorization == 'Employer',
-    isAdministrator: (state) => state.authorization == 'Administrator',
+    isCustomer: (state) => state.user.authorization == 'Customer',
+    isEmployer: (state) => state.user.authorization == 'Employer',
+    isAdministrator: (state) => state.user.authorization == 'Administrator',
   },
   actions: {
     decodeToken() {
@@ -21,13 +23,13 @@ export const useUserStore = defineStore('user', {
 
       if(authStore.isAuthenticated) {
         const decodedToken = jwtDecode(authStore.authToken);
-        this.userId = decodedToken.nameid;
-        this.firstname = decodedToken.firstName;
-        this.lastname = decodedToken.lastName;
-        this.email = decodedToken.email;
-        this.authorization = decodedToken.role;
-        console.log(decodedToken);
+        this.user.id = decodedToken.nameid;
+        this.user.firstname = decodedToken.firstName;
+        this.user.lastname = decodedToken.lastName;
+        this.user.email = decodedToken.email;
+        this.user.authorization = decodedToken.role;
       }
     },
-  }
+  },
+  persist: true,
 })
