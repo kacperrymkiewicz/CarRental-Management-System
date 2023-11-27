@@ -1,3 +1,9 @@
+<script setup>
+import CarReservationPanel from '@/components/CarReservationPanel.vue'
+import { useAuthStore } from '@/stores/auth.store';
+const authStore = useAuthStore();
+</script>
+
 <template>
   <section id="home">
     <div class="container">
@@ -8,7 +14,7 @@
           samochodu online. Wystarczy, że zalogujesz się na swoje konto klienta, a następnie wybierzesz 
           dogodny termin i godzinę odbioru pojazdu. Nasz system potwierdzi Twoją rezerwację i przypomni 
           Ci o niej przed planowanym terminem wypożyczenia.</p>
-          <div class="home-buttons mt-3 mb-5">
+          <div v-if="!authStore.isAuthenticated" class="home-buttons mt-3 mb-5">
             <router-link to="/logowanie"><base-button type="dark" class="mx-2">Logowanie</base-button></router-link>
             <router-link to="/rejestracja"><base-button class="mx-2" style="background-color: #E6E9EC; border: 1px solid #D1D9E2; color: rgb(95, 109, 126);">Rejestracja</base-button></router-link>
           </div>
@@ -19,6 +25,7 @@
           <img class="img-fluid" src="/frontend/images/homepage_vehicle.png" alt="Banner">
         </div>
       </div>
+      <CarReservationPanel v-if="authStore.isAuthenticated"/>
     </div>
   </section>
   <section id="vehicles">
@@ -158,6 +165,7 @@
 
   section#home {
     background-color: $primary;
+    padding-bottom: 60px;
   }
 
   .termin-button {
