@@ -32,38 +32,40 @@ const searchAvailableCars = () => {
           </div>
           <div class="car-reservation-data-select">
             <div class="row">
-              <div class="col-md-5">
+              <div class="col-lg-6 col-xl-5">
                 <div class="form-group">
                   <label for="pickupDate"><IconCalendar class="car-reservation-icon"/> Pick-up</label>
-                  <div class="rental-pickup-date">
+                  <div class="rental-pickup-date mb-3 mb-lg-0">
                     <div class="row g-3">
-                      <div class="col-md-7">
+                      <div class="col-lg-6 col-xl-7">
                         <input type="date" class="form-control" id="pickupDate" v-model="pickupDate">
                       </div>
-                      <div class="col-md-5">
+                      <div class="col-lg-6 col-xl-5">
                         <input type="time" class="form-control" id="pickupTime" v-model="pickupTime">
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-5">
+              <div class="col-lg-6 col-xl-5">
                 <div class="form-group">
                   <label for="returnDate"><IconCalendar class="car-reservation-icon"/> Drop-off</label>
                   <div class="rental-return-date">
                     <div class="row g-3">
-                      <div class="col-md-7">
+                      <div class="col-lg-6 col-xl-7">
                         <input type="date" class="form-control" id="returnDate" v-model="returnDate">
                       </div>
-                      <div class="col-md-5">
+                      <div class="col-lg-6 col-xl-5">
                         <input type="time" class="form-control" id="returnTime" v-model="returnTime">
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-2">
-                <base-button class="car-reservation-search-button" type="dark">Search</base-button>
+              <div class="col-lg-12 col-xl-2 mt-4 mt-xl-0">
+                <div class="rental-search-button">
+                  <base-button class="car-reservation-search-button" type="dark">Search</base-button>
+                </div>
               </div>
             </div>
 
@@ -95,6 +97,8 @@ const searchAvailableCars = () => {
     .car-reservation-search-button {
       background-color: $dark-text;
       border-color: $dark-text;
+      width: 100%;
+      height: 57px;
       margin: 0;
     }
 
@@ -119,6 +123,12 @@ const searchAvailableCars = () => {
     label {
       display: flex;
       align-items: center;
+    }
+
+    .rental-search-button {
+      display: flex;
+      align-items: flex-end;
+      height: 100%;
     }
   }
 </style>
