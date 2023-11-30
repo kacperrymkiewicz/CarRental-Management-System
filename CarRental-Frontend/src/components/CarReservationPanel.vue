@@ -6,9 +6,9 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import { ref } from 'vue';
 const vehicleType = ref('Wszystkie');
 let pickupDate = ref(new Date());
-let pickupTime = ref('');
+let pickupTime = ref(generateRentalInitalTime(new Date()));
 let returnDate = ref(new Date());
-let returnTime = ref('');
+let returnTime = ref(generateRentalInitalTime(new Date()));
 
 const format = 'dd/MM/yyyy';
 
@@ -19,7 +19,21 @@ const updateDate = () => {
 }
 
 const searchAvailableCars = () => {
+  console.log(pickupDate);
+  console.log(pickupTime)
+  console.log(returnDate);
+  console.log(returnTime);
+}
 
+function generateRentalInitalTime(currentDate) {
+  currentDate.setHours(currentDate.getHours() + 1);
+  let currentMinutes = currentDate.getMinutes();
+  let roundedMinutes = Math.ceil(currentMinutes / 15) * 15;
+  currentDate.setMinutes(roundedMinutes);
+  return {
+    hours: currentDate.getHours(),
+    minutes: currentDate.getMinutes()
+  }
 }
 </script>
 
@@ -47,10 +61,10 @@ const searchAvailableCars = () => {
                   <div class="rental-pickup-date mb-3 mb-lg-0">
                     <div class="row g-3">
                       <div class="col-lg-6 col-xl-7">
-                        <VueDatePicker v-model="pickupDate" @update:model-value="updateDate()" input-class-name="datepicker-input" locale="pl" :disabled-week-days="[6, 0]" :enable-time-picker="false" :format="format" select-text="Wybierz" cancel-text="Anuluj" hide-input-icon auto-apply :min-date="new Date()" :clearable="false">{{ pickupDate }}</VueDatePicker>
+                        <VueDatePicker v-model="pickupDate" @update:model-value="updateDate()" input-class-name="datepicker-input" locale="pl" :disabled-week-days="[6, 0]" :enable-time-picker="false" :format="format" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :min-date="new Date()" :clearable="false">{{ pickupDate }}</VueDatePicker>
                       </div>
                       <div class="col-lg-6 col-xl-5">
-                        <input type="time" class="form-control" id="pickupTime" v-model="pickupTime">
+                        <VueDatePicker v-model="pickupTime" time-picker input-class-name="datepicker-input" locale="pl" minutes-increment="15" minutes-grid-increment="15" :min-time="{ hours: 8, minutes: 0 }" :max-time="{ hours: 22, minutes: 0 }" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :clearable="false"></VueDatePicker>
                       </div>
                     </div>
                   </div>
@@ -62,10 +76,10 @@ const searchAvailableCars = () => {
                   <div class="rental-return-date">
                     <div class="row g-3">
                       <div class="col-lg-6 col-xl-7">
-                        <VueDatePicker v-model="returnDate" input-class-name="datepicker-input" locale="pl" :disabled-week-days="[6, 0]" :enable-time-picker="false" :format="format" select-text="Wybierz" cancel-text="Anuluj" hide-input-icon auto-apply :min-date="pickupDate" :clearable="false">{{ pickupDate }}</VueDatePicker>
+                        <VueDatePicker v-model="returnDate" input-class-name="datepicker-input" locale="pl" :disabled-week-days="[6, 0]" :enable-time-picker="false" :format="format" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :min-date="pickupDate" :clearable="false">{{ pickupDate }}</VueDatePicker>
                       </div>
                       <div class="col-lg-6 col-xl-5">
-                        <input type="time" class="form-control" id="returnTime" v-model="returnTime">
+                        <VueDatePicker v-model="returnTime" time-picker input-class-name="datepicker-input" locale="pl" minutes-increment="15" minutes-grid-increment="15" :min-time="{ hours: 8, minutes: 0 }" :max-time="{ hours: 22, minutes: 0 }" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :clearable="false"></VueDatePicker>
                       </div>
                     </div>
                   </div>
@@ -73,7 +87,7 @@ const searchAvailableCars = () => {
               </div>
               <div class="col-lg-12 col-xl-2 mt-4 mt-xl-0">
                 <div class="rental-search-button">
-                  <base-button class="car-reservation-search-button" type="dark">Search</base-button>
+                  <base-button @click.prevent="searchAvailableCars()" class="car-reservation-search-button" type="dark">Search</base-button>
                 </div>
               </div>
             </div>
@@ -109,6 +123,11 @@ const searchAvailableCars = () => {
       width: 100%;
       height: 57px;
       margin: 0;
+    }
+
+    .car-reservation-search-button:hover {
+      background-color: $dark-text-hover;
+      border-color: $dark-text-hover;
     }
 
     .car-reservation-icon {
@@ -167,8 +186,9 @@ const searchAvailableCars = () => {
     }
 
     .datepicker-input {
+      background-color: white;
       font-size: .875rem;
-      color: #ababab;
+      color: #ababab;//#6a6a6a
       border: 1px solid $dark-text;
       border-radius: 3px;
       font-weight: 400;
