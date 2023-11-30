@@ -1,13 +1,22 @@
 <script setup>
 import IconCalendar from '@/components/icons/IconCalendar.vue'
 import IconVehicle from '@/components/icons/IconVehicle.vue'
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 import { ref } from 'vue';
 const vehicleType = ref('Wszystkie');
-const pickupDate = ref('');
-const pickupTime = ref('');
-const returnDate = ref('');
-const returnTime = ref('');
+let pickupDate = ref(new Date());
+let pickupTime = ref('');
+let returnDate = ref(new Date());
+let returnTime = ref('');
 
+const format = 'dd/MM/yyyy';
+
+const updateDate = () => {
+  console.log(returnDate);
+  console.log(pickupDate);
+  if(returnDate <= pickupDate) returnDate.value = pickupDate.value;
+}
 
 const searchAvailableCars = () => {
 
@@ -38,7 +47,7 @@ const searchAvailableCars = () => {
                   <div class="rental-pickup-date mb-3 mb-lg-0">
                     <div class="row g-3">
                       <div class="col-lg-6 col-xl-7">
-                        <input type="date" class="form-control" id="pickupDate" v-model="pickupDate">
+                        <VueDatePicker v-model="pickupDate" @update:model-value="updateDate()" input-class-name="datepicker-input" locale="pl" :disabled-week-days="[6, 0]" :enable-time-picker="false" :format="format" select-text="Wybierz" cancel-text="Anuluj" hide-input-icon auto-apply :min-date="new Date()" :clearable="false">{{ pickupDate }}</VueDatePicker>
                       </div>
                       <div class="col-lg-6 col-xl-5">
                         <input type="time" class="form-control" id="pickupTime" v-model="pickupTime">
@@ -53,7 +62,7 @@ const searchAvailableCars = () => {
                   <div class="rental-return-date">
                     <div class="row g-3">
                       <div class="col-lg-6 col-xl-7">
-                        <input type="date" class="form-control" id="returnDate" v-model="returnDate">
+                        <VueDatePicker v-model="returnDate" input-class-name="datepicker-input" locale="pl" :disabled-week-days="[6, 0]" :enable-time-picker="false" :format="format" select-text="Wybierz" cancel-text="Anuluj" hide-input-icon auto-apply :min-date="pickupDate" :clearable="false">{{ pickupDate }}</VueDatePicker>
                       </div>
                       <div class="col-lg-6 col-xl-5">
                         <input type="time" class="form-control" id="returnTime" v-model="returnTime">
@@ -131,4 +140,47 @@ const searchAvailableCars = () => {
       height: 100%;
     }
   }
+</style>
+
+<style lang="scss">
+    .dp__theme_light {
+    --dp-background-color: #f8f9fb;
+    --dp-text-color: #2C3E50;
+    --dp-hover-color: #f3f3f3;
+    --dp-hover-text-color: #2C3E50;
+    --dp-hover-icon-color: #959595;
+    --dp-primary-color: #3f5ff2;
+    --dp-primary-text-color: #f8f5f5;
+    --dp-secondary-color: #c0c4cc;
+    --dp-border-color: #f8f9fb;
+    --dp-menu-border-color: #ddd;
+    --dp-border-color-hover: #f8f9fb;
+    --dp-disabled-color: #f6f6f6;
+    --dp-scroll-bar-background: #f3f3f3;
+    --dp-scroll-bar-color: #959595;
+    --dp-success-color: #76d275;
+    --dp-success-color-disabled: #a3d9b1;
+    --dp-icon-color: #959595;
+    --dp-danger-color: #ff6f60;
+    --dp-highlight-color: rgba(25, 118, 210, 0.1);
+    --dp-font-family: 'Inter', sans-serif;
+    }
+
+    .datepicker-input {
+      font-size: .875rem;
+      color: #ababab;
+      border: 1px solid $dark-text;
+      border-radius: 3px;
+      font-weight: 400;
+      padding-top: 1.0625rem;
+      padding-bottom: 1.0625rem;
+      padding-right: 1.875rem;
+      padding-left: 1.25rem;
+      margin-top: 3px;
+      line-height: unset;
+    }
+
+    .datepicker-input:hover {
+      border: 1px solid $dark-text;
+    }
 </style>
