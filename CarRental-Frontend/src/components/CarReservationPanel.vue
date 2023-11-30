@@ -3,26 +3,35 @@ import IconCalendar from '@/components/icons/IconCalendar.vue'
 import IconVehicle from '@/components/icons/IconVehicle.vue'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
+import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+
 const vehicleType = ref('Wszystkie');
 let pickupDate = ref(new Date());
 let pickupTime = ref(generateRentalInitalTime(new Date()));
 let returnDate = ref(new Date());
 let returnTime = ref(generateRentalInitalTime(new Date()));
 
+const router = useRouter();
+
 const format = 'dd/MM/yyyy';
 
 const updateDate = () => {
   console.log(returnDate);
   console.log(pickupDate);
-  if(returnDate <= pickupDate) returnDate.value = pickupDate.value;
+  if(returnDate <= pickupDate) returnDate.value = new Date(pickupDate.value);
 }
 
 const searchAvailableCars = () => {
-  console.log(pickupDate);
-  console.log(pickupTime)
-  console.log(returnDate);
-  console.log(returnTime);
+  router.push({ 
+    name: 'booking', 
+    query: { 
+      pickupDate: pickupDate.value.getFullYear() + '-' + (pickupDate.value.getMonth() + 1) + '-' + pickupDate.value.getDate(),
+      pickupTime: pickupTime.value.hours + ":" + pickupTime.value.minutes,
+      returnDate: returnDate.value.getFullYear() + '-' + (returnDate.value.getMonth() + 1) + '-' + returnDate.value.getDate(),
+      returnTime: returnTime.value.hours + ":" + returnTime.value.minutes,
+    }
+  })
 }
 
 function generateRentalInitalTime(currentDate) {
