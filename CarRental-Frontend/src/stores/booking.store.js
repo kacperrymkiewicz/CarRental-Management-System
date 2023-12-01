@@ -7,6 +7,7 @@ export const useBookingStore = defineStore('booking', {
   }),
   getters: {
     carsFound: (state) => state.searchResult.length > 0,
+    carsAmount: (state) => state.searchResult.length,
   },
   actions: {
     async searchCars(pickupDate, returnDate) {

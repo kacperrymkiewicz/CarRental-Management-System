@@ -22,7 +22,7 @@ const props = defineProps(['car']);
           <div class="car-booking-specification">
             <div class="car-booking-fueltype">
               <span class="car-booking-icon"><IconFuelType/> FuelType</span>
-              <span>Petrol</span>
+              <span>{{ car.fuelType }}</span>
             </div>
             <div class="car-booking-transmission">
               <span class="car-booking-icon"><IconTransmission/> Transmission</span>
@@ -34,7 +34,7 @@ const props = defineProps(['car']);
             </div>
           </div>
           <div class="car-booking-price">
-            <h3>299.00 PLN</h3>
+            <h3>{{ car.price.toFixed(2) }} PLN</h3>
             <h5>cena za 1 dzień</h5>
           </div>
           <base-button class="car-booking-button" type="dark" :has-icon="true">Zarezerwuj teraz</base-button>

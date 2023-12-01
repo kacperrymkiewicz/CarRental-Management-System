@@ -31,8 +31,8 @@ fetchCars();
             <div class="car-booking-sidebar-reservation-date">
               <h3>Data rezerwacji</h3>
               <VueDatePicker v-model="pickupDate" @update:model-value="updateDate()" input-class-name="datepicker-input" locale="pl" :disabled-week-days="[6, 0]" :enable-time-picker="false" :format="format" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :min-date="new Date()" :clearable="false">{{ pickupDate }}</VueDatePicker>
-              <h2>Od {{ route.query.pickupDate }} {{ route.query.pickupTime }}</h2>
-              <h2>Do {{ route.query.returnDate }} {{ route.query.returnTime }}</h2>
+              <h6>Od {{ route.query.pickupDate }} {{ route.query.pickupTime }}</h6>
+              <h6>Do {{ route.query.returnDate }} {{ route.query.returnTime }}</h6>
               <base-button class="car-booking-button" type="dark">Wyszukaj samochód</base-button>
             </div>
           </div>
@@ -42,12 +42,15 @@ fetchCars();
             <div v-if="!bookingStore.carsFound" class="car-booking-notfound">
               <h1>Nie znaleziono dostępnych pojazdów w terminie</h1>
             </div>
-            <template v-else v-for="car in bookingStore.searchResult">
-              <CarBookingItem v-if="car.status" :car="car"/>
+            <template v-else>
+              <h5>Dostępne samochody: <span>{{ bookingStore.carsAmount }}</span></h5>
+              <template v-for="car in bookingStore.searchResult">
+                <CarBookingItem v-if="car.status" :car="car"/>
+              </template>
             </template>
           </div>
           <div v-else>
-            <h3>Trwa wyszukiwanie dostępnych pojazdów</h3>
+            <h3>Trwa wyszukiwanie dostępnych pojazdów...</h3>
           </div>
         </div>
       </div>
@@ -70,6 +73,16 @@ fetchCars();
           font-weight: 600;
           color: $dark-text;
           text-align: left;
+        }
+      }
+    }
+
+    & .car-booking-available-cars {
+      h5 {
+        text-align: left;
+
+        span {
+          color: $dark-text;
         }
       }
     }
