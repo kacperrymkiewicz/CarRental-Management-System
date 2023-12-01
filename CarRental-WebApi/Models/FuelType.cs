@@ -6,7 +6,7 @@ namespace CarRental_WebApi.Models
     public enum FuelType
     {
         Diesel,
-        Gasoline,
+        Petrol,
         LPG,
         Eletric,
         Hybrid
