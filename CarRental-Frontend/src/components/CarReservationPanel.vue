@@ -3,49 +3,27 @@ import IconCalendar from '@/components/icons/IconCalendar.vue'
 import IconVehicle from '@/components/icons/IconVehicle.vue'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
+import { useBookingStore } from '@/stores/booking.store';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 
-const vehicleType = ref('Wszystkie');
-const pickupDate = ref(new Date());
-const pickupTime = ref(generateRentalInitalTime(new Date()));
-const returnDate = ref(new Date());
-const returnTime = ref(generateRentalInitalTime(new Date()));
+const bookingStore = useBookingStore();
+
+bookingStore.vehicleType = 'Wszystkie';
+bookingStore.pickupDate = new Date();
+bookingStore.pickupTime = bookingStore.generateRentalInitalTime(new Date());
+bookingStore.returnDate = new Date();
+bookingStore.returnTime = bookingStore.generateRentalInitalTime(new Date());
 
 const router = useRouter();
 
 const format = 'dd/MM/yyyy';
 
-const updateDate = () => {
-  if(returnDate.value <= pickupDate.value) {
-    let newReturnDate = new Date(pickupDate.value);
-    newReturnDate.setDate(newReturnDate.getDate() + 1);
-    returnDate.value = newReturnDate;
-  } 
-}
-
 const searchAvailableCars = () => {
   router.push({ 
     name: 'booking', 
-    query: {
-      vehicleType: vehicleType.value,
-      pickupDate: pickupDate.value.getFullYear() + '-' + (pickupDate.value.getMonth() + 1).toString().padStart(2, '0') + '-' + pickupDate.value.getDate().toString().padStart(2, '0'),
-      pickupTime: pickupTime.value.hours + ":" + pickupTime.value.minutes,
-      returnDate: returnDate.value.getFullYear() + '-' + (returnDate.value.getMonth() + 1).toString().padStart(2, '0') + '-' + returnDate.value.getDate().toString().padStart(2, '0'),
-      returnTime: returnTime.value.hours.toString().padStart(2, '0') + ":" + returnTime.value.minutes.toString().padStart(2, '0'),
-    }
+    query: bookingStore.buildQueryParams()
   })
-}
-
-function generateRentalInitalTime(currentDate) {
-  currentDate.setHours(currentDate.getHours() + 1);
-  let currentMinutes = currentDate.getMinutes();
-  let roundedMinutes = Math.ceil(currentMinutes / 15) * 15;
-  currentDate.setMinutes(roundedMinutes);
-  return {
-    hours: currentDate.getHours(),
-    minutes: currentDate.getMinutes()
-  }
 }
 </script>
 
@@ -58,7 +36,7 @@ function generateRentalInitalTime(currentDate) {
           <div class="car-reservation-top-panel">
             <div class="form-group">
               <label for="vehicleType"><IconVehicle class="car-reservation-icon"/> Select your car type</label>
-              <select class="form-select" id="vehicleType" v-model="vehicleType">
+              <select class="form-select" id="vehicleType" v-model="bookingStore.vehicleType">
                 <option selected>Wszystkie</option>
                 <option>Sedan</option>
                 <option>SUV</option>
@@ -73,10 +51,10 @@ function generateRentalInitalTime(currentDate) {
                   <div class="rental-pickup-date mb-3 mb-lg-0">
                     <div class="row g-3">
                       <div class="col-lg-6 col-xl-7">
-                        <VueDatePicker v-model="pickupDate" @update:model-value="updateDate()" input-class-name="datepicker-input" locale="pl" :disabled-week-days="[6, 0]" :enable-time-picker="false" :format="format" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :min-date="new Date()" :clearable="false">{{ pickupDate }}</VueDatePicker>
+                        <VueDatePicker v-model="bookingStore.pickupDate" @update:model-value="bookingStore.updateDate()" input-class-name="datepicker-input" locale="pl" :disabled-week-days="[6, 0]" :enable-time-picker="false" :format="format" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :min-date="new Date()" :clearable="false">{{ pickupDate }}</VueDatePicker>
                       </div>
                       <div class="col-lg-6 col-xl-5">
-                        <VueDatePicker v-model="pickupTime" time-picker input-class-name="datepicker-input" locale="pl" minutes-increment="15" minutes-grid-increment="15" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :clearable="false"></VueDatePicker>
+                        <VueDatePicker v-model="bookingStore.pickupTime" time-picker input-class-name="datepicker-input" locale="pl" minutes-increment="15" minutes-grid-increment="15" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :clearable="false"></VueDatePicker>
                       </div>
                     </div>
                   </div>
@@ -88,10 +66,10 @@ function generateRentalInitalTime(currentDate) {
                   <div class="rental-return-date">
                     <div class="row g-3">
                       <div class="col-lg-6 col-xl-7">
-                        <VueDatePicker v-model="returnDate" input-class-name="datepicker-input" locale="pl" :disabled-week-days="[6, 0]" :enable-time-picker="false" :format="format" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :min-date="pickupDate" :clearable="false">{{ pickupDate }}</VueDatePicker>
+                        <VueDatePicker v-model="bookingStore.returnDate" input-class-name="datepicker-input" locale="pl" :disabled-week-days="[6, 0]" :enable-time-picker="false" :format="format" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :min-date="bookingStore.pickupDate" :clearable="false">{{ pickupDate }}</VueDatePicker>
                       </div>
                       <div class="col-lg-6 col-xl-5">
-                        <VueDatePicker v-model="returnTime" time-picker input-class-name="datepicker-input" locale="pl" minutes-increment="15" minutes-grid-increment="15" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :clearable="false"></VueDatePicker>
+                        <VueDatePicker v-model="bookingStore.returnTime" time-picker input-class-name="datepicker-input" locale="pl" minutes-increment="15" minutes-grid-increment="15" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :clearable="false"></VueDatePicker>
                       </div>
                     </div>
                   </div>
