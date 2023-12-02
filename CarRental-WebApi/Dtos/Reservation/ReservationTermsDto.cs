@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CarRental_WebApi.Dtos.Reservation
 {
     public class ReservationTermsDto
     {
-        [Required]
+        [BindRequired]
         public DateTime PickupDate { get; set; }
-        [Required]
+        [BindRequired]
         public DateTime ReturnDate { get; set; }
     }
 }
