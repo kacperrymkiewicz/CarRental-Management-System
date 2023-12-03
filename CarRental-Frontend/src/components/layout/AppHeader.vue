@@ -39,37 +39,37 @@ const logout = () => {
         <div v-if="authStore.isAuthenticated" class="logged-in collapse navbar-collapse" id="navbarSupportedContent">
           <ul v-if="userStore.isAdministrator" class="navbar-nav me-auto mb-lg-0">
             <li class="nav-item">
-              <router-link class="nav-link" active-class="active-logged-in" to="/lekarz/pacjenci">Pacjenci</router-link>
+              <router-link class="nav-link" active-class="active-link" to="/samochody">Samochody</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" active-class="active-logged-in" to="/lekarz/kalendarz-wizyt">Kalendarz wizyt</router-link>
+              <router-link class="nav-link" active-class="active-link" to="/klienci">Klienci</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" active-class="active-link" to="/rezerwacje">Rezerwacje</router-link>
             </li>
           </ul>
 
           <ul v-else-if="userStore.isEmployer" class="navbar-nav me-auto mb-lg-0">
             <li class="nav-item">
-              <router-link class="nav-link" active-class="active-logged-in" to="/recepcja/wizyty">Wizyty</router-link>
+              <router-link class="nav-link" active-class="active-link" to="/klienci">Klienci</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" active-class="active-logged-in" to="/recepcja/pacjenci">Lista pacjentów</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" active-class="active-logged-in" to="/recepcja/lista-lekarzy">Lista lekarzy</router-link>
+              <router-link class="nav-link" active-class="active-link" to="/rezerwacje">Rezerwacje</router-link>
             </li>
           </ul>
 
           <ul v-else class="navbar-nav me-auto mb-lg-0">
             <li class="nav-item">
-              <router-link class="nav-link" active-class="active-logged-in" to="/">Strona główna</router-link>
+              <router-link class="nav-link" active-class="active-link" to="/">Strona główna</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" active-class="active-logged-in" to="/moje-wizyty">Wizyty</router-link>
+              <router-link class="nav-link" active-class="active-link" to="/rezerwacja">Wynajmij samochód</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" active-class="active-link" :to="{ name: 'cars' }">Flota</router-link>
             </li>
             <li class="nav-item"> 
-              <router-link class="nav-link" active-class="active-logged-in" to="/recepty">Recepty</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" active-class="active-logged-in" to="/umow-wizyte">Umów wizytę</router-link>
+              <router-link class="nav-link" active-class="active-link" to="/rezerwacje">Moje rezerwacje</router-link>
             </li>
           </ul>
           
@@ -114,19 +114,19 @@ const logout = () => {
         <div class="collapse navbar-collapse" id="navbarSupportedContent" v-else>
           <ul class="navbar-nav me-auto mb-lg-0">
             <li class="nav-item">
-              <router-link class="nav-link" active-class="active-logged-out" :to="{ name: 'home' }">Strona główna</router-link>
+              <router-link class="nav-link" active-class="active-link" :to="{ name: 'home' }">Strona główna</router-link>
             </li>
             <li class="nav-item"> 
-              <router-link class="nav-link" active-class="active-logged-out" to="/umow-wizyte">Wynajmij samochód</router-link>
+              <router-link class="nav-link" active-class="active-link" :to="{ name: 'cars' }">Wynajmij samochód</router-link>
             </li>
             <li class="nav-item"> 
-              <router-link class="nav-link" active-class="active-logged-out" :to="{ name: 'cars' }">Flota</router-link>
+              <router-link class="nav-link" active-class="active-link" :to="{ name: 'cars' }">Flota</router-link>
             </li>
             <li class="d-md-none">
-              <router-link class="nav-link" active-class="active-logged-out" :to="{ name: 'login' }">Logowanie</router-link>
+              <router-link class="nav-link" active-class="active-link" :to="{ name: 'login' }">Logowanie</router-link>
             </li>
             <li class="d-md-none">
-              <router-link class="nav-link" active-class="active-logged-out" to="/rejestracja">Rejestracja</router-link>
+              <router-link class="nav-link" active-class="active-link" to="/rejestracja">Rejestracja</router-link>
             </li>
           </ul>
           <div class="login-section d-none d-md-flex">
@@ -175,11 +175,9 @@ nav {
 
         .nav-link {
           padding: 9px 17px;
-          font-weight: 500;
-          
-          &.active-logged-out {
-            font-weight: 800;
-            color: $secondary;
+          border-radius: 5px;
+          &.active-link {
+            background-color: $button-light;
           }
         }
       }
@@ -216,9 +214,8 @@ nav {
           }
           .nav-link {
             border-radius: 5px;
-            &.active-logged-in {
+            &.active-link {
               background-color: $button-light;
-              font-weight: 500;
             }
           }
         }
