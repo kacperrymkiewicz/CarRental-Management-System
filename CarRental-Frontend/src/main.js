@@ -13,7 +13,9 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import { capitalizeMixin } from '@/mixins/capitalizeMixin'
 
+import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import BaseButton from '@/components/BaseButton.vue'
+import BaseCard from '@/components/BaseCard.vue'
 
 const toastConfig = {
   transition: "Vue-Toastification__slideBlurred",
@@ -31,5 +33,7 @@ app.use(pinia)
 app.use(router)
 app.use(Toast, toastConfig)
 app.mixin(capitalizeMixin)
+app.component('breadcrumbs', Breadcrumbs)
 app.component('base-button', BaseButton)
+app.component('base-card', BaseCard)
 app.mount('#app')
