@@ -1,6 +1,5 @@
 <script setup>
 import IconProfile from '@/components/icons/IconProfile.vue'
-import WelcomeMessage from '@/components/WelcomeMessage.vue'
 import { useUserStore } from '@/stores/user.store';
 const userStore = useUserStore();
 </script>
@@ -34,12 +33,11 @@ const userStore = useUserStore();
                   <base-card class="base-card">
                     <template v-slot:title>Dane personalne</template>
                     <template v-slot:content>
-                      <p><span>Adres email: </span> {{ userStore.user.email }}</p>
-                      <p><span>Telefon kontaktowy: </span> 123123123 </p>
-                      <p><span>PESEL: </span> 123123123</p>
-                      <p><span>Miejscowość: </span> test</p>
-                      <p><span>Kod pocztowy: </span> test</p>
-                      <p><span>Ulica i nr budynku: </span> test</p>
+                      <p><span>Adres email: </span> {{ userStore.userData.emailAddress }}</p>
+                      <p><span>Telefon kontaktowy: </span> {{ userStore.userData.address.phoneNumber }}</p>
+                      <p><span>Kod pocztowy: </span> {{ userStore.userData.address.zipCode }}</p>
+                      <p><span>Miejscowość: </span> {{ userStore.userData.address.city }}</p>
+                      <p><span>Ulica i nr budynku: </span> {{ userStore.userData.address.street }} {{ userStore.userData.address.houseNumber }}</p>
                     </template>
                   </base-card>
                 </div>

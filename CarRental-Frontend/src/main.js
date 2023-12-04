@@ -13,6 +13,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import { capitalizeMixin } from '@/mixins/capitalizeMixin'
 
+import WelcomeMessage from '@/components/WelcomeMessage.vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseCard from '@/components/BaseCard.vue'
@@ -33,6 +34,7 @@ app.use(pinia)
 app.use(router)
 app.use(Toast, toastConfig)
 app.mixin(capitalizeMixin)
+app.component('welcome-message', WelcomeMessage)
 app.component('breadcrumbs', Breadcrumbs)
 app.component('base-button', BaseButton)
 app.component('base-card', BaseCard)
