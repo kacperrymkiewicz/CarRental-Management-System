@@ -62,7 +62,6 @@ export const useBookingStore = defineStore('booking', {
       const datetime = new Date();
       datetime.setHours(parseInt(hoursStr, 10));
       datetime.setMinutes(parseInt(minutesStr, 10));
-      console.log(datetime)
       return datetime;
     },
     generateRentalInitalTime(currentDate) {

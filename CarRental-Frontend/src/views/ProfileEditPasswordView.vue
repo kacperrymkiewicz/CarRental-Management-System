@@ -8,7 +8,7 @@ const userStore = useUserStore();
       <div class="container">
           <div class="row">
               <div class="col-md-12">
-                  <breadcrumbs is-patient>
+                  <breadcrumbs :is-customer="true">
                       <router-link to="/profil">Mój profil</router-link>
                       <router-link to="/profil/edycja-hasla">Edycja hasła</router-link>
                   </breadcrumbs>
