@@ -11,18 +11,20 @@ const route = useRoute();
 const router = useRouter();
 const format = 'dd/MM/yyyy';
 
-const isLoading = ref(true);
-const isError = ref(false);
+const loading = ref(true);
+const error = ref(null);
 
 bookingStore.syncQueryParams(route.query);
 
 const fetchCars = async () => {
+  loading.value = true;
+  error.value = null;
   const apiResponse = await bookingStore.searchCars(route.query.pickupDate + ' ' + route.query.pickupTime, route.query.returnDate + ' ' + route.query.returnTime);
   if(apiResponse.success) {
-    isLoading.value = false;
+    loading.value = false;
     return;
   }
-  isError.value = true;
+  error.value = true;
 }
 
 const updateParams = () => {
@@ -31,12 +33,13 @@ const updateParams = () => {
     query: bookingStore.buildQueryParams()
   })
   setTimeout(() => {
+    paramsValidated.value = expectedParams.every(key => key in route.query);
     fetchCars();
   }, 0);
 }
 
 const expectedParams = ['pickupDate', 'pickupTime', 'returnDate', 'returnTime', 'vehicleType'];
-const paramsValidated = expectedParams.every(key => key in route.query);
+const paramsValidated = ref(expectedParams.every(key => key in route.query));
 
 if(paramsValidated) {
   fetchCars();
@@ -62,7 +65,7 @@ if(paramsValidated) {
           </div>
         </div>
         <div class="col-lg-9">
-          <div v-if="!isLoading" class="car-booking-available-cars">
+          <div v-if="!loading" class="car-booking-available-cars">
             <div v-if="!bookingStore.carsFound" class="car-booking-notfound">
               <h1>Nie znaleziono dostępnych pojazdów w terminie</h1>
             </div>
@@ -73,14 +76,17 @@ if(paramsValidated) {
               </template>
             </template>
           </div>
-          <div v-else-if="isLoading && !paramsValidated">
+          <div v-else-if="loading && !paramsValidated">
             <h3>Wybierz termin</h3>
           </div>
-          <div v-else-if="isError">
+          <div v-else-if="error">
             <h3>Wystąpił błąd</h3>
           </div>
           <div v-else>
-            <h3>Trwa wyszukiwanie dostępnych pojazdów...</h3>
+            <h3 class="mb-3">Trwa wyszukiwanie dostępnych pojazdów...</h3>
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
           </div>
         </div>
       </div>
