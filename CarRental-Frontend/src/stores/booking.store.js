@@ -9,6 +9,12 @@ export const useBookingStore = defineStore('booking', {
     returnDate: null,
     returnTime: null,
     searchResult: [],
+    responseStatus: {
+      loading: false,
+      success: false,
+      error: null,
+      statusCode: null
+    },
   }),
   getters: {
     carsFound: (state) => state.searchResult.length > 0,
@@ -16,7 +22,10 @@ export const useBookingStore = defineStore('booking', {
   },
   actions: {
     async searchCars(pickupDate, returnDate) {
-      const responseStatus = { success: null, message: null }
+      this.responseStatus.loading = true;
+      this.responseStatus.success = false;
+      this.responseStatus.error = null;
+      this.responseStatus.statusCode = null;
 
       await axios.get('/Cars/Availability', {
         params: {
@@ -26,11 +35,14 @@ export const useBookingStore = defineStore('booking', {
       })
       .then((response) => {
         this.searchResult = response.data.data;
-        responseStatus.success = true;
+        this.responseStatus.success = true;
       })
-      .catch(() => {
-        responseStatus.success = false;
-        responseStatus.message = 'Server error. Unexpected status code.'
+      .catch((error) => {
+        this.responseStatus.error = true;
+        this.responseStatus.statusCode = error.response ? error.response.status : null;
+      })
+      .finally(() => {
+        this.responseStatus.loading = false;
       });
 
       return responseStatus;

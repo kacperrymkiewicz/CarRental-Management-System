@@ -11,20 +11,10 @@ const route = useRoute();
 const router = useRouter();
 const format = 'dd/MM/yyyy';
 
-const loading = ref(true);
-const error = ref(null);
-
 bookingStore.syncQueryParams(route.query);
 
 const fetchCars = async () => {
-  loading.value = true;
-  error.value = null;
-  const apiResponse = await bookingStore.searchCars(route.query.pickupDate + ' ' + route.query.pickupTime, route.query.returnDate + ' ' + route.query.returnTime);
-  if(apiResponse.success) {
-    loading.value = false;
-    return;
-  }
-  error.value = true;
+  await bookingStore.searchCars(route.query.pickupDate + ' ' + route.query.pickupTime, route.query.returnDate + ' ' + route.query.returnTime);
 }
 
 const updateParams = () => {
@@ -65,9 +55,9 @@ if(paramsValidated) {
           </div>
         </div>
         <div class="col-lg-9">
-          <div v-if="!loading" class="car-booking-available-cars">
+          <div v-if="bookingStore.responseStatus.success" class="car-booking-available-cars">
             <div v-if="!bookingStore.carsFound" class="car-booking-notfound">
-              <h1>Nie znaleziono dostępnych pojazdów w terminie</h1>
+              <h3>Nie znaleziono dostępnych pojazdów w podanym terminie</h3>
             </div>
             <template v-else>
               <h5>Dostępne samochody: <span>{{ bookingStore.carsAmount }}</span></h5>
@@ -76,10 +66,10 @@ if(paramsValidated) {
               </template>
             </template>
           </div>
-          <div v-else-if="loading && !paramsValidated">
+          <div v-else-if="!paramsValidated">
             <h3>Wybierz termin</h3>
           </div>
-          <div v-else-if="error">
+          <div v-else-if="bookingStore.responseStatus.error">
             <h3>Wystąpił błąd</h3>
           </div>
           <div v-else>
