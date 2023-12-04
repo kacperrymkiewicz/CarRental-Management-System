@@ -1,6 +1,31 @@
 <script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useToast, TYPE } from "vue-toastification";
 import { useUserStore } from '@/stores/user.store';
 const userStore = useUserStore();
+
+const router = useRouter();
+const toast = useToast();
+
+const currentPassword = ref('');
+const newPassword = ref('');
+const repeatNewPassword = ref('');
+
+const changePassword = async () => {
+  if(newPassword != null && (newPassword.value == repeatNewPassword.value)) {
+    const responseStatus = await userStore.changePassword(currentPassword.value, newPassword.value)
+    toast(responseStatus.message, {
+        type: responseStatus.success ? TYPE.SUCCESS : TYPE.ERROR,
+        timeout: 2000
+    });
+    if(responseStatus.success) {
+      router.push({ name: 'profile' });
+    }
+    return;
+  }
+  toast.error('Podane hasła nie są takie same');
+}
 </script>
 
 <template>
@@ -12,22 +37,22 @@ const userStore = useUserStore();
                       <router-link to="/profil">Mój profil</router-link>
                       <router-link to="/profil/edycja-hasla">Edycja hasła</router-link>
                   </breadcrumbs>
-                  <hello-message :name="userStore.user.firstname" icon-name="clipboard"><template v-slot:info>Tutaj możesz edytować swoje hasło do konta</template></hello-message>
+                  <welcome-message :name="userStore.user.firstname" icon-name="clipboard"><template v-slot:info>Tutaj możesz edytować swoje hasło do konta</template></welcome-message>
                   <div class="d-flex flex-column align-items-center"> 
                       <div class="col-md-6">
                           <h1>Edycja hasła</h1>
-                          <form @submit.prevent="submitForm">
+                          <form @submit.prevent="changePassword">
                               <div class="form-group d-flex flex-column">
                                   <label class="align-self-start" for="current-password">Aktualne hasło</label>
-                                  <input type="password" class="form-control" id="current-password" v-model.trim="currentPassword">
+                                  <input type="password" class="form-control" id="current-password" v-model.trim="currentPassword" required>
                               </div>
                               <div class="form-group d-flex flex-column">
                                   <label class="align-self-start" for="new-password">Nowe hasło</label>
-                                  <input type="password" class="form-control" id="new-password" v-model.trim="newPassword">
+                                  <input type="password" class="form-control" id="new-password" v-model.trim="newPassword" required>
                               </div>  
                               <div class="form-group d-flex flex-column">
                                   <label class="align-self-start" for="repeat-new-password">Powtórz nowe hasło</label>
-                                  <input type="password" class="form-control" id="repeat-new-password" v-model.trim="repeatNewPassword">
+                                  <input type="password" class="form-control" id="repeat-new-password" v-model.trim="repeatNewPassword" required>
                               </div>  
                               <base-button type="dark">Zmień hasło</base-button>
                               <router-link to="/profil"><base-button type="light">Anuluj</base-button></router-link>
