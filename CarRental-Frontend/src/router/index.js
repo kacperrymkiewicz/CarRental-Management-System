@@ -4,6 +4,8 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import SignUpView from '../views/SignUpView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import ProfileEditView from '../views/ProfileEditView.vue'
+import ProfileEditPasswordView from '../views/ProfileEditPasswordView.vue'
 import CarBookingView from '../views/CarBookingView.vue'
 
 const routes = [
@@ -24,8 +26,23 @@ const routes = [
   },
   {
     path: '/profil',
-    name: 'profile',
-    component: ProfileView
+    children: [
+      {
+        path: '',
+        name: 'profile',
+        component: ProfileView,
+      },
+      {
+        path: 'edycja-profilu',
+        name: 'profile-edit',
+        component: ProfileEditView
+      },
+      {
+        path: 'edycja-hasla',
+        name: 'profile-edit-password',
+        component: ProfileEditPasswordView
+      },
+    ]
   },
   {
     path: '/rezerwacja',
