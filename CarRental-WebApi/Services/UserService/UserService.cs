@@ -59,7 +59,7 @@ namespace CarRental_WebApi.Services.UserService
                 if (user is null)
                     throw new Exception($"Nie znaleziono użytkownika z ID: '{updatedUser.Id}'");
 
-                if (await _context.Users.AnyAsync(u => u.EmailAddress.ToLower() == updatedUser.EmailAddress.ToLower()))
+                if (user.EmailAddress != updatedUser.EmailAddress && await _context.Users.AnyAsync(u => u.EmailAddress.ToLower() == updatedUser.EmailAddress.ToLower()))
                     throw new Exception($"Podany adres e-mail '{updatedUser.EmailAddress}' jest już zajęty");
 
                 user.FirstName = updatedUser.FirstName;
