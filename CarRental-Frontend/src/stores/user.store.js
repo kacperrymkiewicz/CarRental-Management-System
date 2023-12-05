@@ -30,11 +30,10 @@ export const useUserStore = defineStore('user', {
         this.user.lastname = decodedToken.lastName;
         this.user.email = decodedToken.email;
         this.user.authorization = decodedToken.role;
-        this.fetchUser(this.user.id);
       }
     },
-    async fetchUser(userId) {
-      await axios.get(`/Users/${userId}`)
+    async fetchUser() {
+      await axios.get(`/Users/${this.user.id}`)
       .then((response) => {
         this.userData = response.data.data;
       });
@@ -50,6 +49,33 @@ export const useUserStore = defineStore('user', {
       .then((response) => {
         responseStatus.success = response.data.success;
         responseStatus.message = response.data.message;
+      })
+      .catch((error) => {
+        responseStatus.success = false;
+        responseStatus.message = error.response.data.message;
+      })
+
+      return responseStatus;
+    },
+    async updateProfile(firstname, lastname, emailAddress, phoneNumber, zipCode, city, street, houseNumber) {
+      const responseStatus = { success: null, message: null }
+
+      await axios.put('/Users', {
+        id: this.user.id,
+        firstName: firstname,
+        lastName: lastname,
+        emailAddress: emailAddress,
+        address: {
+          zipCode: zipCode, 
+          city: city,
+          street: street,
+          houseNumber: houseNumber,
+          phoneNumber: phoneNumber
+        }
+      })
+      .then((response) => {
+        responseStatus.success = response.data.success;
+        responseStatus.message = 'Zmiany zostały zapisane'
       })
       .catch((error) => {
         responseStatus.success = false;

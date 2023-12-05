@@ -22,6 +22,7 @@ const login = async () => {
 
   if(authResponse.success) {
     userStore.decodeToken();
+    userStore.fetchUser();
     redirectAfterSuccessfullLogin();
   }
 }
