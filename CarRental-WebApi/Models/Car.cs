@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace CarRental_WebApi.Models
 {
     public class Car
@@ -12,6 +14,7 @@ namespace CarRental_WebApi.Models
         public float AvgFuelConsumption { get; set; }
         public int Horsepower { get; set; }
         public int ProductionYear { get; set; }
+        [Precision(6,2)]
         public decimal Price { get; set; }
         public string Image { get; set; }
         public GearboxType Gearbox { get; set; }
