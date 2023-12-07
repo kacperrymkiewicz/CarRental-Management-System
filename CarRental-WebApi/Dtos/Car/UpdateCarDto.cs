@@ -15,6 +15,11 @@ namespace CarRental_WebApi.Dtos.Car
         public int Horsepower { get; set; }
         public int ProductionYear { get; set; }
         public decimal Price { get; set; }
+        public string Image { get; set; }
+        public GearboxType Gearbox { get; set; }
+        public int DoorsNumber { get; set; }
+        public int SeatsNumber { get; set; }
+        public int TrunkCapacity { get; set; }
         public bool Status { get; set; } = true;
     }
 }
