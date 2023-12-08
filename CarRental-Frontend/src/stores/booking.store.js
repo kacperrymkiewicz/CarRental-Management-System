@@ -44,8 +44,6 @@ export const useBookingStore = defineStore('booking', {
       .finally(() => {
         this.responseStatus.loading = false;
       });
-
-      return responseStatus;
     },
     buildQueryParams() {
       return {
