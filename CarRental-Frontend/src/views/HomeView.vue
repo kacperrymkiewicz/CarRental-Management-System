@@ -3,8 +3,10 @@ import CarReservationPanel from '@/components/CarReservationPanel.vue'
 import CarItem from '@/components/CarItem.vue'
 import { useAuthStore } from '@/stores/auth.store';
 import { useCarStore } from '@/stores/car.store';
+import { useI18n } from 'vue-i18n';
 const authStore = useAuthStore();
 const carStore = useCarStore();
+const {t} = useI18n();
 
 carStore.fetchCars();
 </script>
@@ -14,7 +16,7 @@ carStore.fetchCars();
     <div class="container">
       <div class="row">
         <div class="col-md-8 offset-md-2">
-          <h1>Wypożyczalnia samochodów</h1>
+          <h1>{{ t('car_rental') }}</h1>
           <p class="home-text">Z myślą o Twoim komforcie i wygodzie, oferujemy możliwość wypożyczenia 
           samochodu online. Wystarczy, że zalogujesz się na swoje konto klienta, a następnie wybierzesz 
           dogodny termin i godzinę odbioru pojazdu. Nasz system potwierdzi Twoją rezerwację i przypomni 
