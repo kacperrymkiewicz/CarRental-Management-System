@@ -16,11 +16,8 @@ carStore.fetchCars();
     <div class="container">
       <div class="row">
         <div class="col-md-8 offset-md-2">
-          <h1>{{ t('car_rental') }}</h1>
-          <p class="home-text">Z myślą o Twoim komforcie i wygodzie, oferujemy możliwość wypożyczenia 
-          samochodu online. Wystarczy, że zalogujesz się na swoje konto klienta, a następnie wybierzesz 
-          dogodny termin i godzinę odbioru pojazdu. Nasz system potwierdzi Twoją rezerwację i przypomni 
-          Ci o niej przed planowanym terminem wypożyczenia.</p>
+          <h1>{{ t('Car rental') }}</h1>
+          <p class="home-text">{{ t('Home.Introduction') }}</p>
           <div v-if="!authStore.isAuthenticated" class="home-buttons mt-3 mb-5">
             <router-link to="/logowanie"><base-button type="dark" class="mx-2">Logowanie</base-button></router-link>
             <router-link to="/rejestracja"><base-button class="mx-2" style="background-color: #E6E9EC; border: 1px solid #D1D9E2; color: rgb(95, 109, 126);">Rejestracja</base-button></router-link>

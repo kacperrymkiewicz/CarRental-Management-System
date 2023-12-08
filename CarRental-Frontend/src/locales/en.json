@@ -1,3 +1,41 @@
 {
-  "car_rental": "Car rental"
+  "Car rental": "Car rental",
+
+  "Auth": {
+    "Login": "Login",
+    "Register": "Register"
+  },
+
+  "Booking": {
+    "Book a car": "Book a car",
+    "Select your car type": "Select your car type",
+    "Pick-up": "Pick-up",
+    "Drop-off": "Drop-off",
+    "Search": "Search",
+    "Change booking date": "Change booking date",
+    "Search car": "Search car"
+
+  },
+
+  "Account": {
+    "Customer": "Customer",
+    "Employer": "Employer",
+    "Administrator": "Administrator",
+    "My profile": "My profile",
+    "Logout": "Logout",
+    "Edit profile": "Edit profile",
+    "Change password": "Change password"
+  },
+
+  "Home": {
+    "Homepage": "Homepage",
+    "Introduction": "With your comfort and convenience in mind, we offer the option to rent a car online. Simply log in to your customer account, choose a convenient pick-up date and time, and our system will confirm your reservation and remind you before the scheduled rental time.",
+    "Our fleet": "Our fleet",
+    "Cars available for rent": "Cars available for rent"
+  },
+  
+  "LanguageLabels": {
+    "English": "English",
+    "Polish": "Polish"
+  }
 }

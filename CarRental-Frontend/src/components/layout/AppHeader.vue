@@ -1,5 +1,6 @@
 <script setup>
 import IconDropDownMenuArrowDown from '@/components/icons/IconDropdownMenuArrowDown.vue'
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToast } from "vue-toastification";
@@ -106,6 +107,8 @@ const logout = () => {
                     Wyloguj
                   </li>
                 </a>
+                <hr>
+                <LanguageSwitcher/>
               </ul>
             </div>
           </div>

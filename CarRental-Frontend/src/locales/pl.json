@@ -1,3 +1,41 @@
 {
-  "car_rental": "Wypożyczalnia samochodów"
+  "Car rental": "Wypożyczalnia samochodów",
+
+  "Auth": {
+    "Login": "Logowanie",
+    "Register": "Rejestracja"
+  },
+
+  "Booking": {
+    "Book a car": "Book a car",
+    "Select your car type": "Select your car type",
+    "Pick-up": "Pick-up",
+    "Drop-off": "Drop-off",
+    "Search": "Search",
+    "Change booking date": "Zmień datę rezerwacji",
+    "Search car": "Wyszukaj samochód"
+
+  },
+
+  "Account": {
+    "Customer": "Customer",
+    "Employer": "Employer",
+    "Administrator": "Administrator",
+    "My profile": "Mój profil",
+    "Logout": "Wyloguj",
+    "Edit profile": "Edytuj profil",
+    "Change password": "Zmień hasło"
+  },
+
+  "Home": {
+    "Homepage": "Strona główna",
+    "Introduction": "Z myślą o Twoim komforcie i wygodzie, oferujemy możliwość wypożyczenia samochodu online. Wystarczy, że zalogujesz się na swoje konto klienta, a następnie wybierzesz dogodny termin i godzinę odbioru pojazdu. Nasz system potwierdzi Twoją rezerwację i przypomni Ci o niej przed planowanym terminem wypożyczenia.",
+    "Our fleet": "Nasza flota",
+    "Cars available for rent": "Samochody dostępne do wypożyczenia"
+  },
+
+  "LanguageLabels": {
+    "English": "Angielski",
+    "Polish": "Polski"
+  }
 }
