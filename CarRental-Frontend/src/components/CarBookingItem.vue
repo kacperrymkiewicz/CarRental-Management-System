@@ -10,7 +10,7 @@ const props = defineProps(['car']);
     <div class="row">
       <div class="col-md-5">
         <div class="car-booking-image">
-          <img class="img-fluid" src="https://i.imgur.com/Fhprxj1.png" alt="{{ car.brand }} {{ car.model }}">
+          <img class="img-fluid" :src="car.image" :alt="car.brand + ' ' + car.model">
         </div>
       </div>
       <div class="col-md-7">
@@ -26,11 +26,11 @@ const props = defineProps(['car']);
             </div>
             <div class="car-booking-transmission">
               <span class="car-booking-icon"><IconTransmission/> Transmission</span>
-              <span>Automatic</span>
+              <span>{{ car.gearbox }}</span>
             </div>
             <div class="car-booking-doors-number">
               <span class="car-booking-icon"><IconCarDoor/> Doors number</span>
-              <span>5 Doors</span>
+              <span>{{ car.doorsNumber }} Doors</span>
             </div>
           </div>
           <div class="car-booking-price">
