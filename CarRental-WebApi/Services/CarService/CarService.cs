@@ -119,24 +119,39 @@ namespace CarRental_WebApi.Services.CarService
             var serviceResponse = new ServiceResponse<List<GetCarDto>>();
             int hourOffset = 1; // The time a car rental company needs for the inspection and preparation of the car for the next customer
 
-            var rentals = await _context.Rentals
-                .Where(r => r.PickupDate.AddHours(-hourOffset) < rentalTerm.ReturnDate && r.ReturnDate.AddHours(hourOffset) > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled)
-                .ToListAsync();
-            var cars = await _context.Cars.Where(c => c.Status).ToListAsync();
-            rentals.ForEach(r => cars.Remove(r.Car));
-            
-            // var availableCars = await _context.Cars
-            //     .Where(car => !_context.Rentals.All(r =>
-            //         r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled))
-            //     .ToListAsync();
+            try
+            {
+                if (rentalTerm.PickupDate >= rentalTerm.ReturnDate)
+                    throw new Exception("Data zwrotu nie może być wcześniejsza niż data odbioru");
 
-            // var cars = await _context.Cars.
-            //     Where(c => !_context.Rentals
-            //         .Where(r => r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate.AddHours(1) > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled)
-            //         .Any(r => r.CarId == c.Id))
-            //         .ToListAsync();
+                if (rentalTerm.PickupDate < DateTime.Now)
+                    throw new Exception("Data odbioru nie może być starsza niż dzisiejsza data");
 
-            serviceResponse.Data = cars.Select(c => _mapper.Map<GetCarDto>(c)).ToList();
+                var rentals = await _context.Rentals
+                    .Where(r => r.PickupDate.AddHours(-hourOffset) < rentalTerm.ReturnDate && r.ReturnDate.AddHours(hourOffset) > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled)
+                    .ToListAsync();
+                var cars = await _context.Cars.Where(c => c.Status).ToListAsync();
+                rentals.ForEach(r => cars.Remove(r.Car));
+                
+                // var availableCars = await _context.Cars
+                //     .Where(car => !_context.Rentals.All(r =>
+                //         r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled))
+                //     .ToListAsync();
+
+                // var cars = await _context.Cars.
+                //     Where(c => !_context.Rentals
+                //         .Where(r => r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate.AddHours(1) > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled)
+                //         .Any(r => r.CarId == c.Id))
+                //         .ToListAsync();
+
+                serviceResponse.Data = cars.Select(c => _mapper.Map<GetCarDto>(c)).ToList();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
             return serviceResponse;
         }
 
