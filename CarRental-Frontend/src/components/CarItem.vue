@@ -2,7 +2,9 @@
 import IconFuelType from '@/components/icons/IconFuelType.vue'
 import IconTransmission from '@/components/icons/IconTransmission.vue'
 import IconCarDoor from '@/components/icons/IconCarDoor.vue'
+import { useI18n } from 'vue-i18n';
 const props = defineProps(['car']);
+const { t } = useI18n();
 </script>
 
 <template>
@@ -15,19 +17,19 @@ const props = defineProps(['car']);
     <div class="car-specification">
       <div class="car-booking-fueltype car-icon">
         <span class="car-booking-icon"><IconFuelType/></span>
-        <span>{{ car.fuelType }}</span>
+        <span>{{ t(`Car.FuelType.${car.fuelType}`) }}</span>
       </div>
       <div class="car-booking-transmission car-icon">
         <span class="car-booking-icon"><IconTransmission/></span>
-        <span>{{ car.gearbox }}</span>
+        <span>{{ t(`Car.TransmissionType.${car.gearbox}`) }}</span>
       </div>
       <div class="car-booking-doors-number car-icon">
         <span class="car-booking-icon"><IconCarDoor/></span>
-        <span>{{ car.doorsNumber }} Doors</span>
+        <span>{{ t('Car.Doors', { doors: car.doorsNumber }) }}</span>
       </div>
     </div>
 
-    <base-button class="car-button">Szczegóły</base-button>
+    <base-button class="car-button">{{ t('Car.Details') }}</base-button>
   </div>
 </template>
 

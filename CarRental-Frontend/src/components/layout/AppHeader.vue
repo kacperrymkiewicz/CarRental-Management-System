@@ -2,6 +2,7 @@
 import IconDropDownMenuArrowDown from '@/components/icons/IconDropdownMenuArrowDown.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useToast } from "vue-toastification";
 import { useAuthStore } from '@/stores/auth.store';
@@ -11,6 +12,7 @@ const userStore = useUserStore();
 
 const router = useRouter();
 const toast = useToast();
+const { t } = useI18n();
 
 let isDropdownMenuOpen = ref(false);
 
@@ -82,7 +84,7 @@ const logout = () => {
             </svg>
             <div>
               <p> {{ capitalizeFirstLetter(userStore.user.firstname) }} {{ capitalizeFirstLetter(userStore.user.lastname) }}</p>
-              <p> {{ userStore.user.authorization }}</p>
+              <p> {{ t(`Account.${userStore.user.authorization}`) }}</p>
             </div>
             <IconDropDownMenuArrowDown/>
             <div v-if="isDropdownMenuOpen" class="drop-down-menu">
@@ -94,7 +96,7 @@ const logout = () => {
                         <path d="M1.94 5.91249L7.94 2.16249C8.58854 1.75716 9.41146 1.75716 10.06 2.16249L16.06 5.91249C16.6448 6.27797 17 6.91891 17 7.60849V13.3915C17 14.0811 16.6448 14.722 16.06 15.0875L10.06 18.8375C9.41146 19.2428 8.58854 19.2428 7.94 18.8375L1.94 15.0875C1.35524 14.722 1 14.0811 1 13.3915V7.60849C1 6.91891 1.35524 6.27797 1.94 5.91249Z" stroke="#5F6D7E" stroke-width="2" stroke-linecap="round"/>
                       </svg>
                     </span>
-                    Mój profil
+                    {{ t('Account.My profile') }}
                   </li>
                 </router-link>
                 <a href="#" @click="logout">
@@ -104,7 +106,7 @@ const logout = () => {
                         <path d="M1.94 5.91249L7.94 2.16249C8.58854 1.75716 9.41146 1.75716 10.06 2.16249L16.06 5.91249C16.6448 6.27797 17 6.91891 17 7.60849V13.3915C17 14.0811 16.6448 14.722 16.06 15.0875L10.06 18.8375C9.41146 19.2428 8.58854 19.2428 7.94 18.8375L1.94 15.0875C1.35524 14.722 1 14.0811 1 13.3915V7.60849C1 6.91891 1.35524 6.27797 1.94 5.91249Z" stroke="#5F6D7E" stroke-width="2" stroke-linecap="round"/>
                       </svg>
                     </span>
-                    Wyloguj
+                    {{ t('Account.Logout') }}
                   </li>
                 </a>
                 <hr>

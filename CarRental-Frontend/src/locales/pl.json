@@ -7,19 +7,40 @@
   },
 
   "Booking": {
-    "Book a car": "Book a car",
-    "Select your car type": "Select your car type",
-    "Pick-up": "Pick-up",
-    "Drop-off": "Drop-off",
-    "Search": "Search",
+    "Book a car": "Zarezerwuj samochód",
+    "Book now": "Zarezerwuj teraz",
+    "Select your car type": "Wybierz rodzaj nadwozia",
+    "Pick-up": "Data odbioru",
+    "Drop-off": "Data zwrotu",
+    "Search": "Szukaj",
     "Change booking date": "Zmień datę rezerwacji",
-    "Search car": "Wyszukaj samochód"
+    "Search car": "Wyszukaj samochód",
+    "Available cars": "Dostępne samochody"
+  },
 
+  "Car": {
+    "Transmission": "Skrzynia biegów",
+    "TransmissionType": {
+      "Manual": "Manualna",
+      "Automatic": "Automatyczna"
+    },
+    "Fuel": "Paliwo",
+    "FuelType": {
+      "Petrol": "Benzyna",
+      "Diesel": "Diesel",
+      "Electric": "Elektryczny",
+      "Hybrid": "Hybrydowy",
+      "LPG": "LPG"
+    },
+    "Doors": "{doors} Drzwi",
+    "Doors number": "Liczba drzwi",
+    "Details": "Szczegóły",
+    "Price": "cena za {days_number} @.lower:Calendar.Day"
   },
 
   "Account": {
-    "Customer": "Customer",
-    "Employer": "Employer",
+    "Customer": "Klient",
+    "Employer": "Pracownik",
     "Administrator": "Administrator",
     "My profile": "Mój profil",
     "Logout": "Wyloguj",
@@ -30,8 +51,12 @@
   "Home": {
     "Homepage": "Strona główna",
     "Introduction": "Z myślą o Twoim komforcie i wygodzie, oferujemy możliwość wypożyczenia samochodu online. Wystarczy, że zalogujesz się na swoje konto klienta, a następnie wybierzesz dogodny termin i godzinę odbioru pojazdu. Nasz system potwierdzi Twoją rezerwację i przypomni Ci o niej przed planowanym terminem wypożyczenia.",
-    "Our fleet": "Nasza flota",
+    "Fleet": "Nasza flota",
     "Cars available for rent": "Samochody dostępne do wypożyczenia"
+  },
+
+  "Calendar": {
+    "Day": "Dzień | Dni"
   },
 
   "LanguageLabels": {

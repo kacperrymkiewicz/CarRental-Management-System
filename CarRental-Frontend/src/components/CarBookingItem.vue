@@ -2,7 +2,9 @@
 import IconFuelType from '@/components/icons/IconFuelType.vue'
 import IconTransmission from '@/components/icons/IconTransmission.vue'
 import IconCarDoor from '@/components/icons/IconCarDoor.vue'
+import { useI18n } from 'vue-i18n';
 const props = defineProps(['car']);
+const { t } = useI18n();
 </script>
 
 <template>
@@ -21,23 +23,23 @@ const props = defineProps(['car']);
           </div>
           <div class="car-booking-specification">
             <div class="car-booking-fueltype">
-              <span class="car-booking-icon"><IconFuelType/> FuelType</span>
-              <span>{{ car.fuelType }}</span>
+              <span class="car-booking-icon"><IconFuelType/> {{ t('Car.Fuel') }}</span>
+              <span>{{ t(`Car.FuelType.${car.fuelType}`) }}</span>
             </div>
             <div class="car-booking-transmission">
-              <span class="car-booking-icon"><IconTransmission/> Transmission</span>
-              <span>{{ car.gearbox }}</span>
+              <span class="car-booking-icon"><IconTransmission/> {{ t('Car.Transmission') }}</span>
+              <span>{{ t(`Car.TransmissionType.${car.gearbox}`) }}</span>
             </div>
             <div class="car-booking-doors-number">
-              <span class="car-booking-icon"><IconCarDoor/> Doors number</span>
-              <span>{{ car.doorsNumber }} Doors</span>
+              <span class="car-booking-icon"><IconCarDoor/> {{ t('Car.Doors number') }}</span>
+              <span>{{ t('Car.Doors', { doors: car.doorsNumber }) }}</span>
             </div>
           </div>
           <div class="car-booking-price">
             <h3>{{ car.price.toFixed(2) }} PLN</h3>
-            <h5>cena za 1 dzień</h5>
+            <h5>{{ t('Car.Price', { days_number: 1 }, 1) }}</h5>
           </div>
-          <base-button class="car-booking-button" type="dark" :has-icon="true">Zarezerwuj teraz</base-button>
+          <base-button class="car-booking-button" type="dark" :has-icon="true">{{ t('Booking.Book now') }}</base-button>
         </div>
       </div>
     </div>

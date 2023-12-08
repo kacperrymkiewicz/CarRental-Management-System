@@ -3,6 +3,7 @@ import CarBookingItem from '@/components/CarBookingItem.vue'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useToast } from "vue-toastification";
 import { useRoute, useRouter } from 'vue-router';
 import { useBookingStore } from '@/stores/booking.store';
@@ -12,6 +13,7 @@ const route = useRoute();
 const router = useRouter();
 const toast = useToast();
 const format = 'dd/MM/yyyy';
+const { t } = useI18n();
 
 bookingStore.syncQueryParams(route.query);
 
@@ -48,14 +50,14 @@ if(paramsValidated) {
         <div class="col-lg-3">
           <div class="car-booking-sidebar-options">
             <div class="car-booking-sidebar-reservation-date">
-              <h5>Zmień datę rezerwacji</h5>
-              <h6>Pick-up</h6>
+              <h5>{{ t('Booking.Change booking date') }}</h5>
+              <h6>{{ t('Booking.Pick-up') }}</h6>
               <VueDatePicker v-model="bookingStore.pickupDate" @update:model-value="bookingStore.updateDate()" input-class-name="sidebar-datepicker" locale="pl" :disabled-week-days="[6, 0]" :enable-time-picker="false" :format="format" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :min-date="new Date()" :clearable="false">{{ pickupDate }}</VueDatePicker>
               <VueDatePicker v-model="bookingStore.pickupTime" time-picker input-class-name="sidebar-datepicker" locale="pl" minutes-increment="15" minutes-grid-increment="15" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :clearable="false"></VueDatePicker>
-              <h6>Drop-off</h6>
+              <h6>{{ t('Booking.Drop-off') }}</h6>
               <VueDatePicker v-model="bookingStore.returnDate" input-class-name="sidebar-datepicker" locale="pl" :disabled-week-days="[6, 0]" :enable-time-picker="false" :format="format" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :min-date="bookingStore.pickupDate" :clearable="false">{{ pickupDate }}</VueDatePicker>
               <VueDatePicker v-model="bookingStore.returnTime" time-picker input-class-name="sidebar-datepicker" locale="pl" minutes-increment="15" minutes-grid-increment="15" select-text="Zatwierdź" cancel-text="Anuluj" hide-input-icon auto-apply :clearable="false"></VueDatePicker>
-              <base-button @click.prevent="updateParams()" class="car-booking-button" type="dark">Wyszukaj samochód</base-button>
+              <base-button @click.prevent="updateParams()" class="car-booking-button" type="dark">{{ t('Booking.Search car') }}</base-button>
             </div>
           </div>
         </div>
@@ -65,7 +67,7 @@ if(paramsValidated) {
               <h3>Nie znaleziono dostępnych pojazdów w podanym terminie</h3>
             </div>
             <template v-else>
-              <h5>Dostępne samochody: <span>{{ bookingStore.carsAmount }}</span></h5>
+              <h5>{{ t('Booking.Available cars') }}: <span>{{ bookingStore.carsAmount }}</span></h5>
               <template v-for="car in bookingStore.searchResult">
                 <CarBookingItem v-if="car.status" :car="car"/>
               </template>

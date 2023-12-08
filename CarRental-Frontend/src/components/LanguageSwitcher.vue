@@ -2,6 +2,11 @@
 import { useI18n } from 'vue-i18n';
 const { locale } = useI18n();
 
+const languageLabels = {
+  "en": "English",
+  "pl": "Polski"
+}
+
 const switchLanguage = () => {
   locale.value = locale.value === 'pl' ? 'en' : 'pl';
   localStorage.setItem('lang', locale.value)
@@ -9,7 +14,7 @@ const switchLanguage = () => {
 </script>
 
 <template>
-  <a href="#" @click.prevent="switchLanguage()">
+  <a @click.prevent="switchLanguage()" href="#">
     <li>
       <span>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="21" fill="currentColor" class="bi bi-translate" viewBox="0 0 16 16">
@@ -18,10 +23,10 @@ const switchLanguage = () => {
         </svg>
       </span>
       <template v-if="locale == 'pl'">
-        English
+        {{ languageLabels.en }}
       </template>
       <template v-else>
-        Polski
+        {{ languageLabels.pl }}
       </template>
     </li>
   </a>

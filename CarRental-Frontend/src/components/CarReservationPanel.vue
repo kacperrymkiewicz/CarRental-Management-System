@@ -5,7 +5,7 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import { useBookingStore } from '@/stores/booking.store';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const bookingStore = useBookingStore();
 
@@ -16,6 +16,7 @@ bookingStore.returnDate = new Date(bookingStore.pickupDate.getTime() + 24 * 60 *
 bookingStore.returnTime = bookingStore.generateRentalInitalTime(new Date());
 
 const router = useRouter();
+const { t } = useI18n();
 
 const format = 'dd/MM/yyyy';
 
@@ -31,11 +32,11 @@ const searchAvailableCars = () => {
   <div class="row">
     <div class="col-md-10 offset-md-1">
       <div class="car-reservation-panel">
-        <h2>Book a car</h2>
+        <h2>{{ t('Booking.Book a car') }}</h2>
         <form @submit.prevent="searchAvailableCars()">
           <div class="car-reservation-top-panel">
             <div class="form-group">
-              <label for="vehicleType"><IconVehicle class="car-reservation-icon"/> Select your car type</label>
+              <label for="vehicleType"><IconVehicle class="car-reservation-icon"/> {{ t('Booking.Select your car type') }}</label>
               <select class="form-select" id="vehicleType" v-model="bookingStore.vehicleType">
                 <option selected>Wszystkie</option>
                 <option>Sedan</option>
@@ -47,7 +48,7 @@ const searchAvailableCars = () => {
             <div class="row">
               <div class="col-lg-6 col-xl-5">
                 <div class="form-group">
-                  <label for="pickupDate"><IconCalendar class="car-reservation-icon"/> Pick-up</label>
+                  <label for="pickupDate"><IconCalendar class="car-reservation-icon"/> {{ t('Booking.Pick-up') }}</label>
                   <div class="rental-pickup-date mb-3 mb-lg-0">
                     <div class="row g-3">
                       <div class="col-lg-6 col-xl-7">
@@ -62,7 +63,7 @@ const searchAvailableCars = () => {
               </div>
               <div class="col-lg-6 col-xl-5">
                 <div class="form-group">
-                  <label for="returnDate"><IconCalendar class="car-reservation-icon"/> Drop-off</label>
+                  <label for="returnDate"><IconCalendar class="car-reservation-icon"/> {{ t('Booking.Drop-off') }}</label>
                   <div class="rental-return-date">
                     <div class="row g-3">
                       <div class="col-lg-6 col-xl-7">
@@ -77,7 +78,7 @@ const searchAvailableCars = () => {
               </div>
               <div class="col-lg-12 col-xl-2 mt-4 mt-xl-0">
                 <div class="rental-search-button">
-                  <base-button @click.prevent="searchAvailableCars()" class="car-reservation-search-button" type="dark">Search</base-button>
+                  <base-button @click.prevent="searchAvailableCars()" class="car-reservation-search-button" type="dark">{{ t('Booking.Search') }}</base-button>
                 </div>
               </div>
             </div>
