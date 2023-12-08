@@ -1,7 +1,12 @@
 <script setup>
 import CarReservationPanel from '@/components/CarReservationPanel.vue'
+import CarItem from '@/components/CarItem.vue'
 import { useAuthStore } from '@/stores/auth.store';
+import { useCarStore } from '@/stores/car.store';
 const authStore = useAuthStore();
+const carStore = useCarStore();
+
+carStore.fetchCars();
 </script>
 
 <template>
@@ -36,8 +41,9 @@ const authStore = useAuthStore();
           <p>Samochody dostępne do wypożyczenia</p>
           <div class="najblizsze-terminy mt-5">
             <div class="row">
-              <div class="col-md-4">
-                <div class="termin">
+              <div v-for="car in carStore.cars" class="col-md-4">
+                <CarItem :car="car"/>
+                <!-- <div class="termin">
                   <div class="termin-doctor">
                     <div class="termin-icon">
                       <img src="../assets/images/icons/doctor.png" class="img-fluid" alt="Doktor">
@@ -62,69 +68,9 @@ const authStore = useAuthStore();
                     <div class="termin-content-more-button">
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
 
-              <div class="col-md-4">
-                <div class="termin">
-                  <div class="termin-doctor">
-                    <div class="termin-icon">
-                      <img src="../assets/images/icons/opthalmologist.png" class="img-fluid" alt="Doktor">
-                    </div>
-                    <div class="termin-title">
-                      <h4>Okulista</h4>
-                    </div>
-                  </div>
-                  <div class="termin-content">
-                    <div class="termin-content-daty">
-                      <div class="row">
-                        <div class="col-md-12 col-lg-6">
-                        </div>
-                        <div class="col-md-12 col-lg-6">
-                        </div>
-                        <div class="col-md-12 col-lg-6">
-                        </div>
-                        <div class="col-md-12 col-lg-6">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="termin-content-more-button">
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="termin">
-                  <div class="termin-doctor">
-                    <div class="termin-icon">
-                      <img src="../assets/images/icons/gastroenterologist.png" class="img-fluid" alt="Doktor">
-                    </div>
-                    <div class="termin-title">
-                      <h4>Gastrolog</h4>
-                    </div>
-                  </div>
-                  <div class="termin-content">
-                    <div class="termin-content-daty">
-                      <div class="row">
-                        <div class="col-md-12 col-lg-6">
-                          <router-link to="/umow-wizyte">
-                            <base-button class="termin-button">Dzisiaj 09:00</base-button>
-                          </router-link>
-                        </div>
-                        <div class="col-md-12 col-lg-6">
-                        </div>
-                        <div class="col-md-12 col-lg-6">
-                        </div>
-                        <div class="col-md-12 col-lg-6">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="termin-content-more-button">
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
