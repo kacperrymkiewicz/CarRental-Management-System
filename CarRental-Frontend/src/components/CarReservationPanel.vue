@@ -12,7 +12,7 @@ const bookingStore = useBookingStore();
 bookingStore.vehicleType = 'Wszystkie';
 bookingStore.pickupDate = new Date();
 bookingStore.pickupTime = bookingStore.generateRentalInitalTime(new Date());
-bookingStore.returnDate = new Date();
+bookingStore.returnDate = new Date(bookingStore.pickupDate.getTime() + 24 * 60 * 60 * 1000)
 bookingStore.returnTime = bookingStore.generateRentalInitalTime(new Date());
 
 const router = useRouter();

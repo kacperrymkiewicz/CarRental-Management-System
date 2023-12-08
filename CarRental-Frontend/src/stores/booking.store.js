@@ -13,7 +13,8 @@ export const useBookingStore = defineStore('booking', {
       loading: false,
       success: false,
       error: null,
-      statusCode: null
+      statusCode: null,
+      message: null
     },
   }),
   getters: {
@@ -26,6 +27,7 @@ export const useBookingStore = defineStore('booking', {
       this.responseStatus.success = false;
       this.responseStatus.error = null;
       this.responseStatus.statusCode = null;
+      this.responseStatus.message = null;
 
       await axios.get('/Cars/Availability', {
         params: {
@@ -35,7 +37,11 @@ export const useBookingStore = defineStore('booking', {
       })
       .then((response) => {
         this.searchResult = response.data.data;
-        this.responseStatus.success = true;
+        this.responseStatus.success = response.data.success;
+        if(!response.data.success) {
+          this.responseStatus.error = true;
+          this.responseStatus.message = response.data.message;
+        }
       })
       .catch((error) => {
         this.responseStatus.error = true;
@@ -58,7 +64,7 @@ export const useBookingStore = defineStore('booking', {
       this.vehicleType = queryParams.vehicleType || 'Wszystkie';
       this.pickupDate = queryParams.pickupDate != null ?new Date(queryParams.pickupDate) : new Date();
       this.pickupTime = queryParams.pickupTime != null ? this.convertDatetimeToObject(this.parseTimeFromQuery(queryParams.pickupTime)) : this.generateRentalInitalTime(new Date());
-      this.returnDate = queryParams.returnDate != null ? new Date(queryParams.returnDate) : new Date();
+      this.returnDate = queryParams.returnDate != null ? new Date(queryParams.returnDate) : new Date(this.pickupDate.getTime() + 24 * 60 * 60 * 1000);
       this.returnTime = queryParams.returnTime != null ? this.convertDatetimeToObject(this.parseTimeFromQuery(queryParams.returnTime)) : this.generateRentalInitalTime(new Date());
     },
     convertDatetimeToObject(datetime) {

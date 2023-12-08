@@ -3,18 +3,23 @@ import CarBookingItem from '@/components/CarBookingItem.vue'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import { ref } from 'vue';
+import { useToast } from "vue-toastification";
 import { useRoute, useRouter } from 'vue-router';
 import { useBookingStore } from '@/stores/booking.store';
 const bookingStore = useBookingStore();
 
 const route = useRoute();
 const router = useRouter();
+const toast = useToast();
 const format = 'dd/MM/yyyy';
 
 bookingStore.syncQueryParams(route.query);
 
 const fetchCars = async () => {
   await bookingStore.searchCars(route.query.pickupDate + ' ' + route.query.pickupTime, route.query.returnDate + ' ' + route.query.returnTime);
+  if(bookingStore.responseStatus.message) {
+    toast.error(bookingStore.responseStatus.message);
+  }
 }
 
 const updateParams = () => {
