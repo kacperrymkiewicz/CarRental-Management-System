@@ -35,7 +35,15 @@
     "Doors": "{doors} Doors",
     "Doors number": "Doors number",
     "Details": "Details",
-    "Price": "price per {days_number} @.lower:Calendar.Day"
+    "Price": "price per {days_number} @.lower:Calendar.Day",
+    "Body": "Body",
+    "AvgFuelConsumption": "Average consumption",
+    "Production year": "Production year",
+    "Engine": "Engine",
+    "Seats number": "Seats number",
+    "Trunk capacity": "Trunk capacity",
+    "Car overview": "Car Overview",
+    "Equipment": "Equipment"
   },
 
   "Account": {

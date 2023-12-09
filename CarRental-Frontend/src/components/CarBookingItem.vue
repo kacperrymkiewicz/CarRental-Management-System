@@ -39,7 +39,9 @@ const { t } = useI18n();
             <h3>{{ car.price.toFixed(2) }} PLN</h3>
             <h5>{{ t('Car.Price', { days_number: 1 }, 1) }}</h5>
           </div>
-          <base-button class="car-booking-button" type="dark" :has-icon="true">{{ t('Booking.Book now') }}</base-button>
+          <router-link :to="{ name: 'car', params: { id: car.id } }">
+            <base-button class="car-booking-button" type="dark" :has-icon="true">{{ t('Booking.Book now') }}</base-button>
+          </router-link>
         </div>
       </div>
     </div>

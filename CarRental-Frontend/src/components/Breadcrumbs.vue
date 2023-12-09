@@ -2,14 +2,19 @@
 const props = defineProps({
   isCustomer: {
     type: Boolean,
-    required: true
+    required: false
+  },
+  homepageNav: {
+    type: Boolean,
+    required: false
   }
 })
 </script>
 
 <template>
   <div>
-    <span> {{ isCustomer ? "Panel klienta" : "Panel pracownika" }} </span>
+    <span v-if="homepageNav"> Strona główna </span>
+    <span v-else> {{ isCustomer ? "Panel klienta" : "Panel pracownika" }} </span>
     <slot></slot>
   </div>
 </template>

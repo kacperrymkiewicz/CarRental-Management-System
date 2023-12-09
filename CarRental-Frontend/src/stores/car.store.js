@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export const useCarStore = defineStore('car', {
   state: () => ({
+    car: null,
     cars: [],
     responseStatus: {
       loading: false,
@@ -30,6 +31,20 @@ export const useCarStore = defineStore('car', {
       .finally(() => {
         this.responseStatus.loading = false;
       });
+    },
+    async fetchCar(carId) {
+      const responseStatus = { success: null, message: null }
+
+      await axios.get(`/Cars/${carId}`)
+      .then((response) => {
+        this.car = response.data.data;
+        responseStatus.success = true;
+      })
+      .catch(() => {
+        responseStatus.success = false;
+      })
+
+      return responseStatus;
     }
   }
 })

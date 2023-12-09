@@ -19,8 +19,8 @@ carStore.fetchCars();
           <h1>{{ t('Car rental') }}</h1>
           <p class="home-text">{{ t('Home.Introduction') }}</p>
           <div v-if="!authStore.isAuthenticated" class="home-buttons mt-3 mb-5">
-            <router-link to="/logowanie"><base-button type="dark" class="mx-2">Logowanie</base-button></router-link>
-            <router-link to="/rejestracja"><base-button class="mx-2" style="background-color: #E6E9EC; border: 1px solid #D1D9E2; color: rgb(95, 109, 126);">Rejestracja</base-button></router-link>
+            <router-link to="/logowanie"><base-button type="dark" class="mx-2">{{ t('Auth.Login') }}</base-button></router-link>
+            <router-link to="/rejestracja"><base-button class="mx-2" style="background-color: #E6E9EC; border: 1px solid #D1D9E2; color: rgb(95, 109, 126);">{{ t('Auth.Register') }}</base-button></router-link>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@ carStore.fetchCars();
         <div class="col-md-12">
           <h2 class="mt-5">{{ t('Home.Fleet') }}</h2>
           <p>{{ t('Home.Cars available for rent') }}</p>
-          <div class="najblizsze-terminy mt-5">
+          <div class="vehicles-fleet mt-5">
             <div class="row">
               <div v-for="car in carStore.cars" class="col-md-4">
                 <CarItem :car="car"/>
@@ -52,7 +52,6 @@ carStore.fetchCars();
 </template>
 
 <style lang="scss" scoped>
-  
   h1 {
       margin: 60px 0 20px;
       font-weight: 700;
@@ -84,37 +83,5 @@ carStore.fetchCars();
   section#home {
     background-color: $primary;
     padding-bottom: 60px;
-  }
-
-  .termin-button {
-    background-color: #E6E9EC!important; 
-    border: 1px solid #D1D9E2!important; 
-    color: rgb(95, 109, 126)!important;
-    font-weight: 600!important;
-    width: 100%;
-    margin: 5px 0;
-  }
-
-  .termin-title h4 {
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 30px;
-    text-align: center;
-    letter-spacing: -0.01em;
-    color: #5F6D7E;
-    padding-bottom: 10px;
-  }
-
-  .termin-icon img {
-    width: 80px;
-  }
-
-  .termin {
-    background: #F8F9FB;
-    border: 1px solid #D1D9E2;
-    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-    border-radius: 5px;
-    padding: 25px;
-    margin-bottom: 35px;
   }
 </style>

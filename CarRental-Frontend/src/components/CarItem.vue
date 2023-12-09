@@ -28,8 +28,9 @@ const { t } = useI18n();
         <span>{{ t('Car.Doors', { doors: car.doorsNumber }) }}</span>
       </div>
     </div>
-
-    <base-button class="car-button">{{ t('Car.Details') }}</base-button>
+    <router-link :to="{ name: 'car', params: { id: car.id } }">
+      <base-button class="car-button">{{ t('Car.Details') }}</base-button>
+    </router-link>
   </div>
 </template>
 

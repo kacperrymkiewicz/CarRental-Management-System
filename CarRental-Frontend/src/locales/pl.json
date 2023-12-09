@@ -33,9 +33,17 @@
       "LPG": "LPG"
     },
     "Doors": "{doors} Drzwi",
-    "Doors number": "Liczba drzwi",
+    "Doors number": "Ilość drzwi",
     "Details": "Szczegóły",
-    "Price": "cena za {days_number} @.lower:Calendar.Day"
+    "Price": "cena za {days_number} @.lower:Calendar.Day",
+    "Body": "Nadwozie",
+    "AvgFuelConsumption": "Średnie spalanie",
+    "Production year": "Rok produkcji",
+    "Engine": "Silnik",
+    "Seats number": "Ilość miejsc",
+    "Trunk capacity": "Pojemność bagażnika",
+    "Car overview": "Specyfikacja samochodu",
+    "Equipment": "Wyposażenie"
   },
 
   "Account": {

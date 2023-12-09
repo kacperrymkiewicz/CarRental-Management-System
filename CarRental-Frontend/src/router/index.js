@@ -7,6 +7,7 @@ import ProfileView from '../views/ProfileView.vue'
 import ProfileEditView from '../views/ProfileEditView.vue'
 import ProfileEditPasswordView from '../views/ProfileEditPasswordView.vue'
 import CarBookingView from '../views/CarBookingView.vue'
+import CarBookingDetailsView from '../views/CarBookingDetailsView.vue'
 
 const routes = [
   {
@@ -51,8 +52,18 @@ const routes = [
   },
   {
     path: '/samochody',
-    name: 'cars',
-    component: HomeView
+    children: [
+      {
+        path: '',
+        name: 'cars',
+        component: HomeView,
+      },
+      {
+        path: ':id/:slug?',
+        name: 'car',
+        component: CarBookingDetailsView
+      }
+    ]
   },
   // {
   //   path: '/about',
