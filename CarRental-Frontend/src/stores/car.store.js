@@ -34,6 +34,7 @@ export const useCarStore = defineStore('car', {
     },
     async fetchCar(carId) {
       const responseStatus = { success: null, message: null }
+      this.car = null;
 
       await axios.get(`/Cars/${carId}`)
       .then((response) => {

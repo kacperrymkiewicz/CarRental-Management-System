@@ -39,8 +39,8 @@ fetchCar();
 </script>
 
 <template>
-  <section v-if="carStore.car" id="car-booking-details">
-    <div class="container">
+  <section id="car-booking-details">
+    <div v-if="carStore.car" class="container">
       <div class="row">
         <div class="col-md-12">
           <breadcrumbs class="mb-5" :homepageNav="true">
