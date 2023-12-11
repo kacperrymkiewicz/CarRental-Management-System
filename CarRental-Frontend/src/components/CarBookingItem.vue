@@ -1,19 +1,12 @@
 <script setup>
-import { ref } from 'vue';
-import BookingModal from '@/components/BookingModal.vue';
 import IconFuelType from '@/components/icons/IconFuelType.vue';
 import IconTransmission from '@/components/icons/IconTransmission.vue';
 import IconCarDoor from '@/components/icons/IconCarDoor.vue';
+import { useBookingStore } from '@/stores/booking.store';
 import { useI18n } from 'vue-i18n';
+const bookingStore = useBookingStore();
 const props = defineProps(['car']);
 const { t } = useI18n();
-
-const bookingModalIsOpen = ref(false);
-const bookingModalData = ref([]);
-const openBookingModal = (bookingData) => {
-  bookingModalData.value = bookingData;
-  bookingModalIsOpen.value = true;
-}
 </script>
 
 <template>
@@ -53,11 +46,10 @@ const openBookingModal = (bookingData) => {
             <h3>{{ car.price.toFixed(2) }} PLN</h3>
             <h5>{{ t('Car.Price', { days_number: 1 }, 1) }}</h5>
           </div>
-          <base-button class="car-booking-button" @click="openBookingModal(car)" type="dark" :has-icon="true">{{ t('Booking.Book now') }}</base-button>
+          <base-button class="car-booking-button" @click="bookingStore.openBookingModal(car)" type="dark" :has-icon="true">{{ t('Booking.Book now') }}</base-button>
         </div>
       </div>
     </div>
-    <booking-modal v-if="bookingModalIsOpen" :data="bookingModalData" @close-booking-modal="bookingModalIsOpen = false"></booking-modal>
   </div>
 </template>
 

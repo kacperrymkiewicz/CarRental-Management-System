@@ -1,63 +1,72 @@
 <script setup>
 const emit = defineEmits(['closeBookingModal'])
-const props = defineProps(['data']);
+const props = defineProps({
+  modalActive: {
+    type: Boolean,
+    default: false
+  },
+  data: {},
+});
 </script>
 
 <template>
-  <div @click="emit('closeBookingModal')" class="overlay"></div>
-  <transition name="modal-animation">
-    <dialog open>
-      <div class="outer-wrapper">
-        <img class="info-icon" src="/frontend/images/icons/svg/base_card_info.svg">
-        <img class="close-button" @click="emit('closeBookingModal')" src="/frontend/images/icons/svg/base_modal_close.svg">
-        <div class="inner-wrapper">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12">
-                <p class="title mb-3">Potwierdź rezerwację</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <p class="subtitle">Szczegóły rezerwacji</p>
-                <div class="content">
-                  <p><span>Data odbioru: </span> 2023-02-02</p>
-                  <p><span>Godzina odbioru: </span> 16:30</p>
-                  <p><span>Data zwrotu: </span> 2023-04-30</p>
-                  <p><span>Godzina zwrotu: </span> 17:15</p>
+  <teleport to="body">
+    <div @click="emit('closeBookingModal')" v-show="modalActive" class="overlay"></div>
+    <transition name="modal-animation">
+      <dialog open v-if="modalActive">
+        <div class="outer-wrapper">
+          <img class="info-icon" src="/frontend/images/icons/svg/base_card_info.svg">
+          <img class="close-button" @click="emit('closeBookingModal')" src="/frontend/images/icons/svg/base_modal_close.svg">
+          <div class="inner-wrapper">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <p class="title mb-3">Potwierdź rezerwację</p>
                 </div>
               </div>
-              <div class="col-md-6">
-                <p class="subtitle">Samochód</p>
-                <div class="content">
-                  <p><span>{{ data.brand }} {{ data.model }}</span></p>
-                  <p><span>Godzina odbioru: </span> 16:30</p>
-                  <p><span>Data zwrotu: </span> 2023-04-30</p>
-                  <p><span>Godzina zwrotu: </span> 17:15</p>
-                  <img class="img-fluid" :src="data.image">
+              <div class="row">
+                <div class="col-md-6">
+                  <p class="subtitle">Szczegóły rezerwacji</p>
+                  <div class="content">
+                    <p><span>Data odbioru: </span> 2023-02-02</p>
+                    <p><span>Godzina odbioru: </span> 16:30</p>
+                    <p><span>Data zwrotu: </span> 2023-04-30</p>
+                    <p><span>Godzina zwrotu: </span> 17:15</p>
+                  </div>
                 </div>
-              </div>
-              <div class="modal-button">
-                <base-button class="mx-2" type="light" @click="emit('closeBookingModal')">Anuluj</base-button>
-                <base-button class="mx-2" type="dark">Dokonaj rezerwacji</base-button>
+                <div class="col-md-6">
+                  <p class="subtitle">Samochód</p>
+                  <div class="content">
+                    <p><span>{{ data.brand }} {{ data.model }}</span></p>
+                    <p><span>Godzina odbioru: </span> 16:30</p>
+                    <p><span>Data zwrotu: </span> 2023-04-30</p>
+                    <p><span>Godzina zwrotu: </span> 17:15</p>
+                    <img class="img-fluid" :src="data.image">
+                  </div>
+                </div>
+                <div class="modal-button">
+                  <base-button class="mx-2" type="light" @click="emit('closeBookingModal')">Anuluj</base-button>
+                  <base-button class="mx-2" type="dark">Dokonaj rezerwacji</base-button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </dialog>
-  </transition>
+      </dialog>
+    </transition>
+  </teleport>
 </template>
 
 <style lang="scss" scoped>
 .modal-animation-enter-active,
 .modal-animation-leave-active {
-  transition: opacity 0.5s ease;
+  transition: all 0.3s ease;
 }
 
 .modal-animation-enter-from,
 .modal-animation-leave-to {
   opacity: 0;
+  transform: translate(-50%, -30%);
 }
 
   div.overlay {

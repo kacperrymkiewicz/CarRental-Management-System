@@ -1,4 +1,5 @@
 <script setup>
+import BookingModal from '@/components/BookingModal.vue';
 import CarBookingItem from '@/components/CarBookingItem.vue'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
@@ -88,6 +89,7 @@ if(paramsValidated) {
         </div>
       </div>
     </div>
+    <booking-modal :modalActive="bookingStore.modal.isActive" :data="bookingStore.modal.data" @close-booking-modal="bookingStore.modal.isActive = false"></booking-modal>
   </section>
 </template>
 

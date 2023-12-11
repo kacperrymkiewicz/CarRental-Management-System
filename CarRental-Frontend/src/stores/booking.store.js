@@ -9,6 +9,10 @@ export const useBookingStore = defineStore('booking', {
     returnDate: null,
     returnTime: null,
     searchResult: [],
+    modal: {
+      isActive: false,
+      data: []
+    },
     responseStatus: {
       loading: false,
       success: false,
@@ -50,6 +54,10 @@ export const useBookingStore = defineStore('booking', {
       .finally(() => {
         this.responseStatus.loading = false;
       });
+    },
+    openBookingModal(bookingData) {
+      this.modal.isActive = true;
+      this.modal.data = bookingData;
     },
     buildQueryParams() {
       return {
