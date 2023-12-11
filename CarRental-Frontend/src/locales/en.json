@@ -42,8 +42,9 @@
     "Engine": "Engine",
     "Seats number": "Seats number",
     "Trunk capacity": "Trunk capacity",
-    "Car overview": "Car Overview",
-    "Equipment": "Equipment"
+    "Car overview": "Car overview",
+    "Equipment": "Equipment",
+    "Show car details": "Show car details"
   },
 
   "Account": {

@@ -1,10 +1,19 @@
 <script setup>
-import IconFuelType from '@/components/icons/IconFuelType.vue'
-import IconTransmission from '@/components/icons/IconTransmission.vue'
-import IconCarDoor from '@/components/icons/IconCarDoor.vue'
+import { ref } from 'vue';
+import BookingModal from '@/components/BookingModal.vue';
+import IconFuelType from '@/components/icons/IconFuelType.vue';
+import IconTransmission from '@/components/icons/IconTransmission.vue';
+import IconCarDoor from '@/components/icons/IconCarDoor.vue';
 import { useI18n } from 'vue-i18n';
 const props = defineProps(['car']);
 const { t } = useI18n();
+
+const bookingModalIsOpen = ref(false);
+const bookingModalData = ref([]);
+const openBookingModal = (bookingData) => {
+  bookingModalData.value = bookingData;
+  bookingModalIsOpen.value = true;
+}
 </script>
 
 <template>
@@ -35,16 +44,20 @@ const { t } = useI18n();
               <span>{{ t('Car.Doors', { doors: car.doorsNumber }) }}</span>
             </div>
           </div>
+          <div class="car-booking-details">
+            <router-link :to="{ name: 'car', params: { id: car.id } }">
+              {{ t('Car.Show car details') }}
+            </router-link>
+          </div>
           <div class="car-booking-price">
             <h3>{{ car.price.toFixed(2) }} PLN</h3>
             <h5>{{ t('Car.Price', { days_number: 1 }, 1) }}</h5>
           </div>
-          <router-link :to="{ name: 'car', params: { id: car.id } }">
-            <base-button class="car-booking-button" type="dark" :has-icon="true">{{ t('Booking.Book now') }}</base-button>
-          </router-link>
+          <base-button class="car-booking-button" @click="openBookingModal(car)" type="dark" :has-icon="true">{{ t('Booking.Book now') }}</base-button>
         </div>
       </div>
     </div>
+    <booking-modal v-if="bookingModalIsOpen" :data="bookingModalData" @close-booking-modal="bookingModalIsOpen = false"></booking-modal>
   </div>
 </template>
 
@@ -72,7 +85,7 @@ const { t } = useI18n();
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: 40px;
+        margin-bottom: 25px;
 
         & div {
           margin: 0 15px;
@@ -106,6 +119,11 @@ const { t } = useI18n();
           font-size: 1.1rem;
           margin-bottom: 30px;
         }
+      }
+
+      & .car-booking-details {
+        text-align: right;
+        margin-bottom: 5px;
       }
 
       & .car-booking-price {
