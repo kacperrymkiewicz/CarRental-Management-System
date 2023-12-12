@@ -1,5 +1,6 @@
 {
   "Car rental": "Wypożyczalnia samochodów",
+  "Cancel": "Anuluj",
 
   "Auth": {
     "Login": "Logowanie",
@@ -15,10 +16,13 @@
     "Search": "Szukaj",
     "Change booking date": "Zmień datę rezerwacji",
     "Search car": "Wyszukaj samochód",
-    "Available cars": "Dostępne samochody"
+    "Available cars": "Dostępne samochody",
+    "Rental cost": "Koszt wynajmu",
+    "Booking confirmation": "Potwierdzenie rezerwacji"
   },
 
   "Car": {
+    "Car": "Samochód",
     "Transmission": "Skrzynia biegów",
     "TransmissionType": {
       "Manual": "Manualna",

@@ -21,7 +21,7 @@ const { t } = useI18n();
         <div class="car-booking-parameters">
           <div class="car-booking-model">
             <h1>{{ car.brand }} {{ car.model }}</h1>
-            <h2>{{ car.engine }} {{ car.productionYear }}</h2>
+            <h2>{{ car.type }}, {{ car.engine }} {{ car.productionYear }}</h2>
           </div>
           <div class="car-booking-specification">
             <div class="car-booking-fueltype">
@@ -43,8 +43,8 @@ const { t } = useI18n();
             </router-link>
           </div>
           <div class="car-booking-price">
-            <h3>{{ car.price.toFixed(2) }} PLN</h3>
-            <h5>{{ t('Car.Price', { days_number: 1 }, 1) }}</h5>
+            <h3>{{ (bookingStore.rentalPeriod * car.price).toFixed(2) }} PLN</h3>
+            <h5>{{ t('Car.Price', { days_number: bookingStore.rentalPeriod }, bookingStore.rentalPeriod) }}</h5>
           </div>
           <base-button class="car-booking-button" @click="bookingStore.openBookingModal(car)" type="dark" :has-icon="true">{{ t('Booking.Book now') }}</base-button>
         </div>

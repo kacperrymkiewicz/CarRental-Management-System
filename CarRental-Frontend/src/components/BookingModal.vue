@@ -1,4 +1,9 @@
 <script setup>
+import { useToast, TYPE } from "vue-toastification";
+import { useBookingStore } from '@/stores/booking.store';
+import { useUserStore } from '@/stores/user.store';
+import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 const emit = defineEmits(['closeBookingModal'])
 const props = defineProps({
   modalActive: {
@@ -7,6 +12,35 @@ const props = defineProps({
   },
   data: {},
 });
+
+const bookingStore = useBookingStore();
+const userStore = useUserStore();
+const route = useRoute();
+const router = useRouter();
+const toast = useToast();
+const { t } = useI18n();
+
+const addRental = async () => {
+  const response = await bookingStore.addRental({
+    pickupDate: route.query.pickupDate,
+    pickupTime: route.query.pickupTime,
+    returnDate: route.query.returnDate,
+    returnTime: route.query.returnTime,
+    carId: props.data.id,
+    customerId: userStore.user.id
+  });
+
+  console.log(response);
+  toast(response.message, {
+    type: response.success ? TYPE.SUCCESS : TYPE.ERROR,
+    timeout: 2000
+  });
+
+  emit('closeBookingModal');
+  if(response.success) {
+    router.push({ name: 'reservations' })
+  }
+}
 </script>
 
 <template>
@@ -21,32 +55,27 @@ const props = defineProps({
             <div class="container">
               <div class="row">
                 <div class="col-md-12">
-                  <p class="title mb-3">Potwierdź rezerwację</p>
+                  <p class="title mb-3">{{ t('Booking.Booking confirmation') }}</p>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6">
-                  <p class="subtitle">Szczegóły rezerwacji</p>
                   <div class="content">
-                    <p><span>Data odbioru: </span> 2023-02-02</p>
-                    <p><span>Godzina odbioru: </span> 16:30</p>
-                    <p><span>Data zwrotu: </span> 2023-04-30</p>
-                    <p><span>Godzina zwrotu: </span> 17:15</p>
+                    <p><span>{{ t('Car.Car') }}: </span> {{ data.brand }} {{ data.model }} {{ data.productionYear }}, {{ data.type }} {{ data.engine }} {{ data.horsepower }}km</p>
+                    <p class="mb-3"><span>{{ t('Car.Transmission') }}: </span> {{ t(`Car.TransmissionType.${data.gearbox}`) }}</p>
+                    <p><span>{{ t('Booking.Pick-up') }}: </span> {{ route.query.pickupDate }} {{ route.query.pickupTime }}</p>
+                    <p><span>{{ t('Booking.Drop-off') }}: </span> {{ route.query.returnDate }} {{ route.query.returnTime }}</p>
+                    <p><span>{{ t('Booking.Rental cost') }}: </span> {{ (bookingStore.rentalPeriod * data.price).toFixed(2) }} PLN</p>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <p class="subtitle">Samochód</p>
                   <div class="content">
-                    <p><span>{{ data.brand }} {{ data.model }}</span></p>
-                    <p><span>Godzina odbioru: </span> 16:30</p>
-                    <p><span>Data zwrotu: </span> 2023-04-30</p>
-                    <p><span>Godzina zwrotu: </span> 17:15</p>
-                    <img class="img-fluid" :src="data.image">
+                    <img class="img-fluid mt-4" :src="data.image">
                   </div>
                 </div>
                 <div class="modal-button">
-                  <base-button class="mx-2" type="light" @click="emit('closeBookingModal')">Anuluj</base-button>
-                  <base-button class="mx-2" type="dark">Dokonaj rezerwacji</base-button>
+                  <base-button class="mx-2" type="light" @click="emit('closeBookingModal')">{{ t('Cancel') }}</base-button>
+                  <base-button class="mx-2" type="dark" @click="addRental">{{ t('Booking.Book a car') }}</base-button>
                 </div>
               </div>
             </div>
@@ -144,6 +173,7 @@ const props = defineProps({
         }
 
         .modal-button {
+          margin-top: 30px;
           display: flex;
           justify-content: center;
         }

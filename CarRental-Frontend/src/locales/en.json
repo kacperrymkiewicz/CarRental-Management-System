@@ -1,5 +1,6 @@
 {
   "Car rental": "Car rental",
+  "Cancel": "Cancel",
 
   "Auth": {
     "Login": "Login",
@@ -15,10 +16,13 @@
     "Search": "Search",
     "Change booking date": "Change booking date",
     "Search car": "Search car",
-    "Available cars": "Available cars"
+    "Available cars": "Available cars",
+    "Rental cost": "Rental cost",
+    "Booking confirmation": "Booking confirmation"
   },
 
   "Car": {
+    "Car": "Car",
     "Transmission": "Transmission",
     "TransmissionType": {
       "Manual": "Manual",

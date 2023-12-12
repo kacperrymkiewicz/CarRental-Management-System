@@ -8,6 +8,7 @@ export const useBookingStore = defineStore('booking', {
     pickupTime: null,
     returnDate: null,
     returnTime: null,
+    rentalPeriod: 0,
     searchResult: [],
     modal: {
       isActive: false,
@@ -46,6 +47,9 @@ export const useBookingStore = defineStore('booking', {
           this.responseStatus.error = true;
           this.responseStatus.message = response.data.message;
         }
+        else {
+          this.calculateRentalPeriod();
+        }
       })
       .catch((error) => {
         this.responseStatus.error = true;
@@ -59,6 +63,31 @@ export const useBookingStore = defineStore('booking', {
       this.modal.isActive = true;
       this.modal.data = bookingData;
     },
+    async addRental(rentalData) {
+      const responseStatus = { success: null, message: null }
+
+      await axios.post('/Rentals', {
+        pickupDate: rentalData.pickupDate + 'T' + rentalData.pickupTime,
+        returnDate: rentalData.returnDate + 'T' + rentalData.returnTime,
+        carId: rentalData.carId,
+        customerId: rentalData.customerId
+      })
+      .then((response) => {
+        if(response.data.success) {
+          responseStatus.message = 'Samochód został zarezerwowany';
+        }
+        else {
+          responseStatus.message = response.data.message;
+        }
+        responseStatus.success = response.data.success;
+      })
+      .catch((error) => {
+        responseStatus.success = false;
+        responseStatus.message = 'Nie udało się dokonać rezerwacji';
+      })
+
+      return responseStatus;
+    },
     buildQueryParams() {
       return {
         vehicleType: this.vehicleType,
@@ -70,7 +99,7 @@ export const useBookingStore = defineStore('booking', {
     },
     syncQueryParams(queryParams) {
       this.vehicleType = queryParams.vehicleType || 'Wszystkie';
-      this.pickupDate = queryParams.pickupDate != null ?new Date(queryParams.pickupDate) : new Date();
+      this.pickupDate = queryParams.pickupDate != null ? new Date(queryParams.pickupDate) : new Date();
       this.pickupTime = queryParams.pickupTime != null ? this.convertDatetimeToObject(this.parseTimeFromQuery(queryParams.pickupTime)) : this.generateRentalInitalTime(new Date());
       this.returnDate = queryParams.returnDate != null ? new Date(queryParams.returnDate) : new Date(this.pickupDate.getTime() + 24 * 60 * 60 * 1000);
       this.returnTime = queryParams.returnTime != null ? this.convertDatetimeToObject(this.parseTimeFromQuery(queryParams.returnTime)) : this.generateRentalInitalTime(new Date());
@@ -104,6 +133,10 @@ export const useBookingStore = defineStore('booking', {
         newReturnDate.setDate(newReturnDate.getDate() + 1);
         this.returnDate = newReturnDate;
       } 
+    },
+    calculateRentalPeriod() {
+      let timeDiff = this.returnDate - this.pickupDate;
+      this.rentalPeriod = Math.round((timeDiff / (1000 * 3600 * 24)));
     }
   }
 })
