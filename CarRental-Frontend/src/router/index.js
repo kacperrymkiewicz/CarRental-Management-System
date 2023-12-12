@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import HomeView from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
-import SignUpView from '../views/SignUpView.vue'
-import ProfileView from '../views/ProfileView.vue'
-import ProfileEditView from '../views/ProfileEditView.vue'
-import ProfileEditPasswordView from '../views/ProfileEditPasswordView.vue'
-import CarBookingView from '../views/CarBookingView.vue'
-import CarBookingDetailsView from '../views/CarBookingDetailsView.vue'
+import HomeView from '@/views/HomeView.vue'
+import LoginView from '@/views/LoginView.vue'
+import SignUpView from '@/views/SignUpView.vue'
+import ProfileView from '@/views/ProfileView.vue'
+import ProfileEditView from '@/views/ProfileEditView.vue'
+import ProfileEditPasswordView from '@/views/ProfileEditPasswordView.vue'
+import CarBookingView from '@/views/CarBookingView.vue'
+import CarBookingDetailsView from '@/views/CarBookingDetailsView.vue'
+import UserRentals from '@/views/UserRentals.vue'
 
 const routes = [
   {
@@ -49,6 +50,11 @@ const routes = [
     path: '/rezerwacja',
     name: 'booking',
     component: CarBookingView
+  },
+  {
+    path: '/rezerwacje',
+    name: 'reservations',
+    component: UserRentals
   },
   {
     path: '/samochody',

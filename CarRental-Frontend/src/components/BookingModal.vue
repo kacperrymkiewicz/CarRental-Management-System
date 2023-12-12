@@ -30,7 +30,6 @@ const addRental = async () => {
     customerId: userStore.user.id
   });
 
-  console.log(response);
   toast(response.message, {
     type: response.success ? TYPE.SUCCESS : TYPE.ERROR,
     timeout: 2000

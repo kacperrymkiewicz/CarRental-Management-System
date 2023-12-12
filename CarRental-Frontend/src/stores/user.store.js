@@ -12,12 +12,14 @@ export const useUserStore = defineStore('user', {
       email: '',
       authorization: '',
     },
-    userData: []
+    userData: [],
+    userRentals: []
   }),
   getters: {
     isCustomer: (state) => state.user.authorization == 'Customer',
     isEmployer: (state) => state.user.authorization == 'Employer',
     isAdministrator: (state) => state.user.authorization == 'Administrator',
+    hasRentals: (state) => state.userRentals.length > 0
   },
   actions: {
     decodeToken() {
@@ -36,6 +38,12 @@ export const useUserStore = defineStore('user', {
       await axios.get(`/Users/${this.user.id}`)
       .then((response) => {
         this.userData = response.data.data;
+      });
+    },
+    async fetchUserRentals() {
+      await axios.get(`/Users/${this.user.id}/Rentals`)
+      .then((response) => {
+        this.userRentals = response.data.data;
       });
     },
     async changePassword(currentPassword, newPassword) {
