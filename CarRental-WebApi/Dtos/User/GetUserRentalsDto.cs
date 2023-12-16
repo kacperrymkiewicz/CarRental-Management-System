@@ -9,6 +9,7 @@ namespace CarRental_WebApi.Dtos.User
 {
     public class GetUserRentalsDto
     {
+        public DateTime ReservationDate { get; set; }
         public DateTime PickupDate { get; set; }
         public DateTime ReturnDate { get; set; }
         public GetCarDto Car { get; set; }
