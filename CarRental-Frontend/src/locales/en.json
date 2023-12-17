@@ -1,6 +1,10 @@
 {
   "Car rental": "Car rental",
   "Cancel": "Cancel",
+  "Status": "Status",
+  "Actions": "Actions",
+  "Previous page": "Previous page",
+  "Next page": "Next page",
 
   "Auth": {
     "Login": "Login",
@@ -18,7 +22,17 @@
     "Search car": "Search car",
     "Available cars": "Available cars",
     "Rental cost": "Rental cost",
-    "Booking confirmation": "Booking confirmation"
+    "Booking confirmation": "Booking confirmation",
+    "Cancel": "Cancel",
+    "No reservations": "No reservations",
+    "Status": {
+      "Unconfirmed": "Unconfirmed",
+      "Confirmed": "Confirmed",
+      "Rented": "Rented",
+      "Returned": "Returned",
+      "Unreturned": "Unrented",
+      "Cancelled": "Cancelled"
+    }
   },
 
   "Car": {

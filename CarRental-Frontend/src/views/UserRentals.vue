@@ -1,29 +1,12 @@
 <script setup>
 import { useUserStore } from '@/stores/user.store';
 import { useToast, TYPE } from "vue-toastification";
+import { useI18n } from 'vue-i18n';
 const userStore = useUserStore();
 userStore.fetchUserRentals();
 
 const toast = useToast();
-
-const setStatus = (status) => {
-  switch (status) {
-    case 'Unconfirmed':
-      return "Niepotwierdzony"
-    case 'Confirmed':
-      return "Zarezerwowany"
-    case 'Rented':
-      return "Wynajęty"
-    case 'Returned':
-      return "Zwrócony"
-    case 'Unreturned':
-      return "Niezwrócony"
-    case 'Cancelled':
-      return "Anulowany"
-    default:
-      return "Niezdefiniowany"
-  }
-};
+const { t } = useI18n();
 
 const setStatusIcon = (status) => {
   switch (status) {
@@ -72,11 +55,11 @@ const cancelReservation = async (rentalId) => {
               <table class="table">
                 <thead>
                   <tr>
-                    <th>Data odbioru</th>
-                    <th>Data zwrotu</th>
-                    <th>Samochód</th>
-                    <th>Status</th>
-                    <th>Akcje</th>
+                    <th>{{ t('Booking.Pick-up') }}</th>
+                    <th>{{ t('Booking.Drop-off') }}</th>
+                    <th>{{ t('Car.Car') }}</th>
+                    <th>{{ t('Status') }}</th>
+                    <th>{{ t('Actions') }}</th>
                   </tr>
                 </thead>
                 <tbody v-if="userStore.hasRentals">
@@ -113,18 +96,18 @@ const cancelReservation = async (rentalId) => {
                     <td>
                       <span>
                         <span class="status-icon" :style="{ backgroundColor: setStatusIcon(rental.status) }"></span>
-                        <span class="status-text">{{ capitalizeFirstLetter(setStatus(rental.status)) }}</span>
+                        <span class="status-text">{{ capitalizeFirstLetter(t(`Booking.Status.${rental.status}`)) }}</span>
                       </span>
                     </td>
                     <td>
                       <!-- <button @click="confirmVisit(rental.id)" :class="['teal-button', {'disabled-teal-button': rental.status == 'Finished' || rental.status == 'Canceled' || rental.status == 'Confirmed'}]">Potwierdź</button> -->
-                      <button @click="cancelReservation(rental.id)" :class="['red-button', { 'disabled-red-button': rental.status == 'Rented' || rental.status == 'Returned' || rental.status == 'Unreturned' || rental.status == 'Cancelled' }]">Odwołaj</button>
+                      <button @click="cancelReservation(rental.id)" :class="['red-button', { 'disabled-red-button': rental.status == 'Rented' || rental.status == 'Returned' || rental.status == 'Unreturned' || rental.status == 'Cancelled' }]">{{ t('Booking.Cancel') }}</button>
                     </td>
                   </tr>
                 </tbody>
                 <tbody class="no-results" v-else>
                   <tr>
-                    <td colspan="6">Brak rezerwacji</td>
+                    <td colspan="6">{{ t('Booking.No reservations') }}</td>
                   </tr>
                 </tbody>
                 <tfoot>
@@ -133,11 +116,11 @@ const cancelReservation = async (rentalId) => {
                       <span class="tfoot-icon">
                         <img src="/frontend/images/icons/svg/table_arrow_left.svg">
                       </span>
-                      <span class="tfoot-text">Poprzednia strona</span>
+                      <span class="tfoot-text">{{ t('Previous page') }}</span>
                     </th>
                     <th v-for="field in 3" :key="field"></th>
                     <th>
-                      <span class="tfoot-text">Następna strona</span>
+                      <span class="tfoot-text">{{ t('Next page') }}</span>
                       <span class="tfoot-icon">
                         <img src="/frontend/images/icons/svg/table_arrow_right.svg">
                       </span>
@@ -348,4 +331,5 @@ div.wrapper {
       }
     }
   }
-}</style>
+}
+</style>

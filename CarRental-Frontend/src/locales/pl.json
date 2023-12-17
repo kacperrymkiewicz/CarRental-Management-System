@@ -1,6 +1,10 @@
 {
   "Car rental": "Wypożyczalnia samochodów",
   "Cancel": "Anuluj",
+  "Status": "Status",
+  "Actions": "Akcje",
+  "Previous page": "Poprzednia strona",
+  "Next page": "Następna strona",
 
   "Auth": {
     "Login": "Logowanie",
@@ -18,7 +22,17 @@
     "Search car": "Wyszukaj samochód",
     "Available cars": "Dostępne samochody",
     "Rental cost": "Koszt wynajmu",
-    "Booking confirmation": "Potwierdzenie rezerwacji"
+    "Booking confirmation": "Potwierdzenie rezerwacji",
+    "Cancel": "Odwołaj",
+    "No reservations": "Brak rezerwacji",
+    "Status": {
+      "Unconfirmed": "Niepotwierdzony",
+      "Confirmed": "Zarezerwowany",
+      "Rented": "Wynajęty",
+      "Returned": "Zwrócony",
+      "Unreturned": "Niezwrócony",
+      "Cancelled": "Anulowany"
+    }
   },
 
   "Car": {
