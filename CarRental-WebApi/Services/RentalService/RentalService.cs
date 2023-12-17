@@ -157,7 +157,7 @@ namespace CarRental_WebApi.Services.RentalService
                     throw new Exception($"Nie znaleziono rezerwacji z ID: '{id}'");
 
                 if((rental.PickupDate - DateTime.Now) <= TimeSpan.FromHours(24))
-                    throw new Exception($"Nie można odwołać wizyty, ponieważ pozostało mniej niż 24 godziny lub już się odbyła");
+                    throw new Exception($"Nie można odwołać rezerwacji, ponieważ pozostało mniej niż 24 godziny");
 
                 rental.Status = RentalStatus.Cancelled;
                 await _context.SaveChangesAsync();
@@ -182,7 +182,7 @@ namespace CarRental_WebApi.Services.RentalService
                 if(rental is null)
                     throw new Exception($"Nie znaleziono rezerwacji z ID: '{id}'");
 
-                rental.Status = RentalStatus.Rented;
+                rental.Status = RentalStatus.Reserved;
                 await _context.SaveChangesAsync();
                 serviceResponse.Data = _mapper.Map<GetRentalDto>(rental);
             }
