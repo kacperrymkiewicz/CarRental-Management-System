@@ -46,6 +46,21 @@ export const useUserStore = defineStore('user', {
         this.userRentals = response.data.data;
       });
     },
+    async cancelReservation(id) {
+      const responseStatus = { success: null, message: null }
+
+      await axios.patch(`/Rentals/${id}/Cancel`)
+      .then((response) => {
+        responseStatus.success = response.data.success;
+        responseStatus.message = 'Rezerwacja została odwołana pomyślnie';
+      })
+      .catch((error) => {
+        responseStatus.success = false;
+        responseStatus.message = error.response.data.message;
+      });
+
+      return responseStatus;
+    },
     async changePassword(currentPassword, newPassword) {
       const responseStatus = { success: null, message: null }
 
