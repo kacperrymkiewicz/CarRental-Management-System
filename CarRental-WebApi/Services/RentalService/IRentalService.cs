@@ -15,5 +15,8 @@ namespace CarRental_WebApi.Services.RentalService
         Task<ServiceResponse<List<GetRentalDto>>> AddRental(AddRentalDto newCar);
         Task<ServiceResponse<GetRentalDto>> UpdateRental(UpdateRentalDto updatedRental);
         Task<ServiceResponse<List<GetRentalDto>>> DeleteRental(int id);
+        Task<ServiceResponse<GetRentalDto>> CancelRental(int id);
+        Task<ServiceResponse<GetRentalDto>> ConfirmRental(int id);
+        Task<ServiceResponse<GetRentalDto>> FinishRental(int id);
     }
 }

@@ -145,5 +145,77 @@ namespace CarRental_WebApi.Services.RentalService
 
             return serviceResponse;
         }
+
+        public async Task<ServiceResponse<GetRentalDto>> CancelRental(int id)
+        {
+            var serviceResponse = new ServiceResponse<GetRentalDto>();
+
+            try
+            {
+                var rental = await _context.Rentals.FirstOrDefaultAsync(r => r.Id == id);
+                if(rental is null)
+                    throw new Exception($"Nie znaleziono rezerwacji z ID: '{id}'");
+
+                if((rental.PickupDate - DateTime.Now) <= TimeSpan.FromHours(24))
+                    throw new Exception($"Nie można odwołać wizyty, ponieważ pozostało mniej niż 24 godziny lub już się odbyła");
+
+                rental.Status = RentalStatus.Cancelled;
+                await _context.SaveChangesAsync();
+                serviceResponse.Data = _mapper.Map<GetRentalDto>(rental);
+            }
+            catch(Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetRentalDto>> ConfirmRental(int id)
+        {
+            var serviceResponse = new ServiceResponse<GetRentalDto>();
+
+            try
+            {
+                var rental = await _context.Rentals.FirstOrDefaultAsync(r => r.Id == id);
+                if(rental is null)
+                    throw new Exception($"Nie znaleziono rezerwacji z ID: '{id}'");
+
+                rental.Status = RentalStatus.Rented;
+                await _context.SaveChangesAsync();
+                serviceResponse.Data = _mapper.Map<GetRentalDto>(rental);
+            }
+            catch(Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetRentalDto>> FinishRental(int id)
+        {
+            var serviceResponse = new ServiceResponse<GetRentalDto>();
+
+            try
+            {
+                var rental = await _context.Rentals.FirstOrDefaultAsync(r => r.Id == id);
+                if(rental is null)
+                    throw new Exception($"Nie znaleziono rezerwacji z ID: '{id}'");
+
+                rental.Status = RentalStatus.Returned;
+                await _context.SaveChangesAsync();
+                serviceResponse.Data = _mapper.Map<GetRentalDto>(rental);
+            }
+            catch(Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
     }
 }

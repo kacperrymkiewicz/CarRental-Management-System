@@ -68,5 +68,43 @@ namespace CarRental_WebApi.Controllers
             }
             return Ok(response);
         }
+
+        [HttpPatch]
+        [Route("{id}/Cancel")]
+        public async Task<ActionResult<ServiceResponse<GetRentalDto>>> CancelRental(int id)
+        {
+            var response = await _rentalService.CancelRental(id);
+            if(response.Data is null) 
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPatch]
+        [Route("{id}/Confirm")]
+        [Authorize(Roles = "Administrator, Manager, Employer")]
+        public async Task<ActionResult<ServiceResponse<GetRentalDto>>> ConfirmRental(int id)
+        {
+            var response = await _rentalService.ConfirmRental(id);
+            if(response.Data is null) 
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPatch]
+        [Route("{id}/Finish")]
+        [Authorize(Roles = "Administrator, Manager, Employer")]
+        public async Task<ActionResult<ServiceResponse<GetRentalDto>>> FinishRental(int id)
+        {
+            var response = await _rentalService.FinishRental(id);
+            if(response.Data is null) 
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
     }
 }
