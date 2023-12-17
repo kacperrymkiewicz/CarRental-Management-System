@@ -1,6 +1,7 @@
 using AutoMapper;
 using CarRental_WebApi.Dtos.Address;
 using CarRental_WebApi.Dtos.Car;
+using CarRental_WebApi.Dtos.Equipment;
 using CarRental_WebApi.Dtos.Rental;
 using CarRental_WebApi.Dtos.Review;
 using CarRental_WebApi.Dtos.User;
@@ -26,6 +27,7 @@ namespace CarRental_WebApi.Helpers
             CreateMap<Review, GetReviewDto>();
             CreateMap<GetReviewDto, Review>();
             CreateMap<AddReviewDto, Review>();
+            CreateMap<Equipment, GetEquipmentDto>();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace CarRental_WebApi.Services.CarService
             var serviceResponse = new ServiceResponse<GetCarDto>();
             try 
             {
-                var car = await _context.Cars.FirstOrDefaultAsync(c => c.Id == id);
+                var car = await _context.Cars.Include(c => c.Equipment).FirstOrDefaultAsync(c => c.Id == id);
                 if (car is null)
                     throw new Exception($"Nie znaleziono samochodu z ID: '{id}'");
 

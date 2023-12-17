@@ -22,5 +22,6 @@ namespace CarRental_WebApi.Models
         public int SeatsNumber { get; set; }
         public int TrunkCapacity { get; set; }
         public bool Status { get; set; } = true;
+        public List<Equipment> Equipment { get; set; }
     }
 }

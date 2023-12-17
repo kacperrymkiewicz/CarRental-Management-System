@@ -1,3 +1,4 @@
+using CarRental_WebApi.Dtos.Equipment;
 using CarRental_WebApi.Models;
 
 namespace CarRental_WebApi.Dtos.Car
@@ -21,5 +22,6 @@ namespace CarRental_WebApi.Dtos.Car
         public int SeatsNumber { get; set; }
         public int TrunkCapacity { get; set; }
         public bool Status { get; set; } = true;
+        public List<GetEquipmentDto> Equipment { get; set; }
     }
 }
