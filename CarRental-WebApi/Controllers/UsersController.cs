@@ -68,17 +68,17 @@ namespace CarRental_WebApi.Controllers
 
         [HttpGet]
         [Route("{id}/Rentals")]
-        [Authorize(Roles = "Administrator, Manager, Customer")]
+        [Authorize(Roles = "Administrator, Employer, Customer")]
         public async Task<ActionResult<ServiceResponse<List<GetUserRentalsDto>>>> GetUserRentals(int id)
         {
-            var response = await _userService.GetUserRentals(id);
-            
             if(User.IsInRole("Customer")) {
                 var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
                 if(!userId.Equals(id)) {
                     return Unauthorized();
                 }
             }
+
+            var response = await _userService.GetUserRentals(id);
 
             if(!response.Success)
             {
