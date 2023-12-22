@@ -132,17 +132,6 @@ namespace CarRental_WebApi.Services.CarService
                     .ToListAsync();
                 var cars = await _context.Cars.Where(c => c.Status).ToListAsync();
                 rentals.ForEach(r => cars.Remove(r.Car));
-                
-                // var availableCars = await _context.Cars
-                //     .Where(car => !_context.Rentals.All(r =>
-                //         r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled))
-                //     .ToListAsync();
-
-                // var cars = await _context.Cars.
-                //     Where(c => !_context.Rentals
-                //         .Where(r => r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate.AddHours(1) > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled)
-                //         .Any(r => r.CarId == c.Id))
-                //         .ToListAsync();
 
                 serviceResponse.Data = cars.Select(c => _mapper.Map<GetCarDto>(c)).ToList();
             }
@@ -173,7 +162,6 @@ namespace CarRental_WebApi.Services.CarService
 
                 var availableCars = await GetAvailableCars(rentalTerm);
                 serviceResponse.Data = availableCars.Data!.Any(c => c.Id == id);
-                // serviceResponse.Data = await _context.Rentals.AnyAsync(r => r.PickupDate < rentalTerm.ReturnDate && r.ReturnDate.AddHours(1) > rentalTerm.PickupDate && r.Status != RentalStatus.Cancelled && r.CarId == id);
             }
             catch (Exception ex)
             {
