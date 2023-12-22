@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CarRental_WebApi.Dtos.Rental;
 using CarRental_WebApi.Dtos.User;
@@ -66,9 +68,18 @@ namespace CarRental_WebApi.Controllers
 
         [HttpGet]
         [Route("{id}/Rentals")]
+        [Authorize(Roles = "Administrator, Manager, Customer")]
         public async Task<ActionResult<ServiceResponse<List<GetUserRentalsDto>>>> GetUserRentals(int id)
         {
             var response = await _userService.GetUserRentals(id);
+            
+            if(User.IsInRole("Customer")) {
+                var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
+                if(!userId.Equals(id)) {
+                    return Unauthorized();
+                }
+            }
+
             if(!response.Success)
             {
                 return NotFound(response);

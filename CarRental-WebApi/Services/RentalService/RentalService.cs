@@ -77,7 +77,7 @@ namespace CarRental_WebApi.Services.RentalService
                 if (car is null)
                     throw new Exception($"Nie znaleziono samochodu z ID: '{rental.CarId}'");
 
-                var available = await _carService.CheckCarAvailability(car.Id, new ReservationTermsDto { PickupDate = rental.PickupDate, ReturnDate = rental.ReturnDate});
+                var available = await _carService.CheckCarAvailability(car.Id, new ReservationTermsDto { PickupDate = rental.PickupDate, ReturnDate = rental.ReturnDate });
                 if (!available.Data)
                     throw new Exception($"Samochód z ID: '{rental.CarId}' nie jest dostępny w terminie od '{rental.PickupDate}' do '{rental.ReturnDate}'");
 
