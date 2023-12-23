@@ -27,7 +27,7 @@
     "No reservations": "Brak rezerwacji",
     "Status": {
       "Unconfirmed": "Niepotwierdzony",
-      "Confirmed": "Zarezerwowany",
+      "Reserved": "Zarezerwowany",
       "Rented": "Wynajęty",
       "Returned": "Zwrócony",
       "Unreturned": "Niezwrócony",

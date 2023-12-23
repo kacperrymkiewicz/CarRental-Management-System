@@ -27,7 +27,7 @@
     "No reservations": "No reservations",
     "Status": {
       "Unconfirmed": "Unconfirmed",
-      "Confirmed": "Confirmed",
+      "Reserved": "Confirmed",
       "Rented": "Rented",
       "Returned": "Returned",
       "Unreturned": "Unrented",

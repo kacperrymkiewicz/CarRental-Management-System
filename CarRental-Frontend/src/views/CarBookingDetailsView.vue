@@ -87,7 +87,7 @@ fetchCar();
                 </tr>
                 <tr>
                   <td><IconFuelType/> {{ t('Car.Fuel') }}</td>
-                  <td>{{ carStore.car.fuelType }}</td>
+                  <td>{{ t(`Car.FuelType.${carStore.car.fuelType}`) }}</td>
                 </tr>
                 <tr>
                   <td><IconCarCluster/> {{ t('Car.AvgFuelConsumption') }}</td>

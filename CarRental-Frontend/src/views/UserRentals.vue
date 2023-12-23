@@ -12,7 +12,7 @@ const setStatusIcon = (status) => {
   switch (status) {
     case 'Unconfirmed':
       return "#F8EE12";
-    case 'Confirmed':
+    case 'Reserved':
       return "#209420";
     case 'Rented':
       return "#205594";
