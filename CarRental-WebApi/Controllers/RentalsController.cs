@@ -22,6 +22,7 @@ namespace CarRental_WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator, Manager, Employee")]
         public async Task<ActionResult<ServiceResponse<List<GetRentalDto>>>> GetRentals()
         {
             return Ok(await _rentalService.GetRentals());
