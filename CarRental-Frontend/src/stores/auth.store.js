@@ -11,6 +11,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     setToken(token) {
       this.authToken = token;
+      axios.defaults.headers.common['Authorization'] = `bearer ${token}`;
     },
     removeToken() {
       this.authToken = null;
