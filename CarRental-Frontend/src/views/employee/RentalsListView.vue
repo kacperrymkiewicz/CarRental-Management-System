@@ -1,9 +1,11 @@
 <script setup>
 import { useUserStore } from '@/stores/user.store';
+import { useRentalStore } from '@/stores/rental.store';
 import { useToast, TYPE } from "vue-toastification";
 import { useI18n } from 'vue-i18n';
 const userStore = useUserStore();
-userStore.fetchUserRentals();
+const rentalStore = useRentalStore();
+rentalStore.fetchRentals();
 
 const toast = useToast();
 const { t } = useI18n();
@@ -28,27 +30,54 @@ const setStatusIcon = (status) => {
 };
 
 const cancelReservation = async (rentalId) => {
-  const responseStatus = await userStore.cancelReservation(rentalId);
+  const responseStatus = await rentalStore.cancelReservation(rentalId);
   if (responseStatus.success) {
-    userStore.fetchUserRentals();
+    rentalStore.fetchRentals();
   }
   toast(responseStatus.message, {
     type: responseStatus.success ? TYPE.SUCCESS : TYPE.ERROR,
     timeout: 2000
   });
 }
+
+const confirmReservation = async (rentalId) => {
+  const responseStatus = await rentalStore.confirmReservation(rentalId);
+  if (responseStatus.success) {
+    rentalStore.fetchRentals();
+  }
+  toast(responseStatus.message, {
+    type: responseStatus.success ? TYPE.SUCCESS : TYPE.ERROR,
+    timeout: 2000
+  });
+}
+
+const finishReservation = async (rentalId) => {
+  const responseStatus = await rentalStore.finishReservation(rentalId);
+  if (responseStatus.success) {
+    rentalStore.fetchRentals();
+  }
+  toast(responseStatus.message, {
+    type: responseStatus.success ? TYPE.SUCCESS : TYPE.ERROR,
+    timeout: 2000
+  });
+}
+
+const formatDate = (date) => {
+  return date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + 
+         date.getDate().toString().padStart(2, '0') + ' ' + ("00" + date.getHours()).slice(-2) + ":" + ("00" + date.getMinutes()).slice(-2);  
+}
 </script>
 
 <template>
-  <section id="user-rentals-list">
+  <section id="rentals-list">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <breadcrumbs :homepageNav="true">
-            <router-link :to="{ name: 'reservations' }">Moje rezerwacje</router-link>
+          <breadcrumbs>
+            <router-link :to="{ name: 'panel-booking' }">Lista rezerwacji</router-link>
           </breadcrumbs>
           <welcome-message v-if="userStore.user" :name="userStore.user.firstname">
-            <template v-slot:info>Oto lista wszystkich rezerwacji</template>
+            <template v-slot:info>Oto lista rezerwacji dokonanych przez klientów</template>
           </welcome-message>
           <div class="wrapper d-flex flex-column">
             <div class="table-responsive d-flex flex-column">
@@ -57,34 +86,26 @@ const cancelReservation = async (rentalId) => {
                   <tr>
                     <th>{{ t('Booking.Pick-up') }}</th>
                     <th>{{ t('Booking.Drop-off') }}</th>
+                    <th>{{ t('Account.Customer') }}</th>
                     <th>{{ t('Car.Car') }}</th>
                     <th>{{ t('Status') }}</th>
                     <th>{{ t('Actions') }}</th>
                   </tr>
                 </thead>
-                <tbody v-if="userStore.hasRentals">
-                  <tr v-for="rental in userStore.userRentals" :key="rental">
+                <tbody v-if="rentalStore.foundRentals">
+                  <tr v-for="rental in rentalStore.rentals" :key="rental">
                     <td>
                       <span>
-                        {{ new Date(rental.pickupDate).toLocaleDateString('pl', {
-                          weekday: "short", year: "numeric",
-                          month: "short", day: "numeric"
-                        }) }} {{ new Date(rental.pickupDate).toLocaleTimeString('pl', {
-                          hour:
-                            '2-digit', minute: '2-digit'
-                        }) }}
+                        {{ formatDate(new Date(rental.pickupDate)) }}
                       </span>
                     </td>
                     <td>
                       <span>
-                        {{ new Date(rental.returnDate).toLocaleDateString('pl', {
-                          weekday: "short", year: "numeric",
-                          month: "short", day: "numeric"
-                        }) }} {{ new Date(rental.returnDate).toLocaleTimeString('pl', {
-                          hour:
-                            '2-digit', minute: '2-digit'
-                        }) }}
+                        {{ formatDate(new Date(rental.returnDate)) }}
                       </span>
+                    </td>
+                    <td>
+                      {{ rental.customer.firstName }} {{ rental.customer.lastName }}
                     </td>
                     <td>
                       <span>
@@ -100,8 +121,9 @@ const cancelReservation = async (rentalId) => {
                       </span>
                     </td>
                     <td>
-                      <!-- <button @click="confirmVisit(rental.id)" :class="['teal-button', {'disabled-teal-button': rental.status == 'Finished' || rental.status == 'Canceled' || rental.status == 'Confirmed'}]">Potwierdź</button> -->
+                      <button @click="confirmReservation(rental.id)" :class="['green-button', {'disabled-green-button': rental.status == 'Returned' || rental.status == 'Reserved' || rental.status == 'Rented' || rental.status == 'Unreturned' }]">{{ t('Booking.Confirm') }}</button>
                       <button @click="cancelReservation(rental.id)" :class="['red-button', { 'disabled-red-button': rental.status == 'Rented' || rental.status == 'Returned' || rental.status == 'Unreturned' || rental.status == 'Cancelled' }]">{{ t('Booking.Cancel') }}</button>
+                      <button @click="finishReservation(rental.id)" :class="['blue-button', { 'disabled-blue-button': rental.status == 'Returned' || rental.status == 'Cancelled' || rental.status == 'Unconfirmed' || rental.status == 'Reserved' }]">{{ t('Booking.Finish') }}</button>
                     </td>
                   </tr>
                 </tbody>
@@ -118,7 +140,7 @@ const cancelReservation = async (rentalId) => {
                       </span>
                       <span class="tfoot-text">{{ t('Previous page') }}</span>
                     </th>
-                    <th v-for="field in 3" :key="field"></th>
+                    <th v-for="field in 4" :key="field"></th>
                     <th>
                       <span class="tfoot-text">{{ t('Next page') }}</span>
                       <span class="tfoot-icon">
@@ -264,9 +286,9 @@ div.wrapper {
               margin-right: 20px;
               transition: all .2s ease-in-out;
 
-              &.disabled-teal-button {
+              &.disabled-green-button {
                 cursor: not-allowed;
-                background-color: $button-teal-hover !important;
+                background-color: $button-green-hover !important;
                 pointer-events: none;
               }
 
@@ -276,19 +298,25 @@ div.wrapper {
                 pointer-events: none;
               }
 
+              &.disabled-blue-button {
+                cursor: not-allowed;
+                background-color: rgb(32, 85, 148, 0.5) !important;
+                pointer-events: none;
+              }
+
               &.blue-button {
-                background-color: $button-blue;
+                background-color: rgb(32, 85, 148, 1);
 
                 &:hover {
-                  background-color: $button-blue-hover;
+                  background-color: rgb(32, 85, 148, 0.5)
                 }
               }
 
-              &.teal-button {
-                background-color: $button-teal;
+              &.green-button {
+                background-color: $button-green;
 
                 &:hover {
-                  background-color: $button-teal-hover;
+                  background-color: $button-green-hover;
                 }
               }
 
