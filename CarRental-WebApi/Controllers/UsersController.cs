@@ -68,7 +68,7 @@ namespace CarRental_WebApi.Controllers
 
         [HttpGet]
         [Route("{id}/Rentals")]
-        [Authorize(Roles = "Administrator, Employer, Customer")]
+        [Authorize(Roles = "Administrator, Employee, Customer")]
         public async Task<ActionResult<ServiceResponse<List<GetUserRentalsDto>>>> GetUserRentals(int id)
         {
             if(User.IsInRole("Customer")) {

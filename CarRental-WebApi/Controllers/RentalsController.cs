@@ -83,7 +83,7 @@ namespace CarRental_WebApi.Controllers
 
         [HttpPatch]
         [Route("{id}/Confirm")]
-        [Authorize(Roles = "Administrator, Manager, Employer")]
+        [Authorize(Roles = "Administrator, Manager, Employee")]
         public async Task<ActionResult<ServiceResponse<GetRentalDto>>> ConfirmRental(int id)
         {
             var response = await _rentalService.ConfirmRental(id);
@@ -96,7 +96,7 @@ namespace CarRental_WebApi.Controllers
 
         [HttpPatch]
         [Route("{id}/Finish")]
-        [Authorize(Roles = "Administrator, Manager, Employer")]
+        [Authorize(Roles = "Administrator, Manager, Employee")]
         public async Task<ActionResult<ServiceResponse<GetRentalDto>>> FinishRental(int id)
         {
             var response = await _rentalService.FinishRental(id);
