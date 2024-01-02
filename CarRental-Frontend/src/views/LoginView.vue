@@ -31,7 +31,7 @@ const redirectAfterSuccessfullLogin = () => {
   if(authStore.isAuthenticated && userStore.isCustomer){
       router.push({name: 'home'});
   }
-  else if(authStore.isAuthenticated && userStore.isEmployer){
+  else if(authStore.isAuthenticated && userStore.isEmployee){
       router.push({name: 'home'})
   }
   else if(authStore.isAuthenticated && userStore.isAdministrator){
