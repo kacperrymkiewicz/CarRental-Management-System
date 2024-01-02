@@ -6,7 +6,7 @@ namespace CarRental_WebApi.Models
     public enum AccountType
     {
         Customer,
-        Employer,
+        Employee,
         Accountant,
         Manager,
         Administrator
