@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useToast } from 'vue-toastification';
 
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
@@ -9,6 +10,7 @@ import ProfileEditPasswordView from '@/views/ProfileEditPasswordView.vue'
 import CarBookingView from '@/views/CarBookingView.vue'
 import CarBookingDetailsView from '@/views/CarBookingDetailsView.vue'
 import UserRentals from '@/views/UserRentals.vue'
+import RentalsListView from '@/views/employee/RentalsListView.vue'
 
 const routes = [
   {
@@ -71,6 +73,29 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/panel',
+    meta: {
+      requiresAuth: true,
+    },
+    children: [
+      {
+        path: 'rezerwacje',
+        name: 'panel-booking',
+        component: RentalsListView
+      },
+      {
+        path: 'klienci',
+        name: 'panel-customers',
+        component: ProfileEditPasswordView
+      },
+      {
+        path: 'samochody',
+        name: 'panel-cars',
+        component: ProfileEditPasswordView
+      },
+    ]
+  },
   // {
   //   path: '/about',
   //   name: 'about',
@@ -88,5 +113,24 @@ const router = createRouter({
     return { top: 0, left: 0, /*behavior: "instant"*/ }
   }
 });
+
+router.beforeEach((to) => {
+  if(to.meta.requiresAuth && !localStorage.getItem('user')){
+    const toast = useToast();
+    toast.error("Ta akcja wymaga autoryzacji");
+    return  { name: "login" } ;
+  }
+  if(to.meta.requiresEmployeePerms && localStorage.getItem('role') != 'Employee'){
+    const toast = useToast();
+    toast.error("Ta akcja wymaga autoryzacji. Poziom uprawnień: Pracownik");
+    return  { name: "login" } ;
+  }
+  if(to.meta.requiresAdministratorPerms && localStorage.getItem('role') != 'Administrator'){
+    const toast = useToast();
+    toast.error("Ta akcja wymaga autoryzacji. Poziom uprawnień: Administrator");
+    return  { name: "login" } ;
+  }
+  return true
+})
 
 export default router;
