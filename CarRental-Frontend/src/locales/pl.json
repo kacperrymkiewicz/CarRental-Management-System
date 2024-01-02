@@ -23,7 +23,9 @@
     "Available cars": "Dostępne samochody",
     "Rental cost": "Koszt wynajmu",
     "Booking confirmation": "Potwierdzenie rezerwacji",
+    "Confirm": "Potwierdź",
     "Cancel": "Odwołaj",
+    "Finish": "Zakończ",
     "No reservations": "Brak rezerwacji",
     "Status": {
       "Unconfirmed": "Niepotwierdzony",
@@ -67,7 +69,7 @@
 
   "Account": {
     "Customer": "Klient",
-    "Employer": "Pracownik",
+    "Employee": "Pracownik",
     "Administrator": "Administrator",
     "My profile": "Mój profil",
     "Logout": "Wyloguj",
@@ -89,5 +91,10 @@
   "LanguageLabels": {
     "English": "Angielski",
     "Polish": "Polski"
+  },
+  
+  "User": {
+    "First name": "Imię",
+    "Last name": "Nazwisko"
   }
 }
