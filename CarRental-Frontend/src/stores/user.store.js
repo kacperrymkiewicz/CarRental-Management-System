@@ -17,7 +17,7 @@ export const useUserStore = defineStore('user', {
   }),
   getters: {
     isCustomer: (state) => state.user.authorization == 'Customer',
-    isEmployer: (state) => state.user.authorization == 'Employer',
+    isEmployee: (state) => state.user.authorization == 'Employee',
     isAdministrator: (state) => state.user.authorization == 'Administrator',
     hasRentals: (state) => state.userRentals.length > 0
   },

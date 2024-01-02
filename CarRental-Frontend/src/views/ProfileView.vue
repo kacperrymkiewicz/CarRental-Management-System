@@ -23,13 +23,12 @@ const userStore = useUserStore();
                   <span> {{ capitalizeFirstLetter(userStore.user.firstname) }} {{ capitalizeFirstLetter(userStore.user.lastname) }}</span>
                 </div>
                 <div class="buttons">
-                  <router-link to="/profil/edycja-profilu"><base-button type="dark">Edytuj
-                      profil</base-button></router-link>
+                  <router-link to="/profil/edycja-profilu"><base-button type="dark">Edytuj profil</base-button></router-link>
                   <router-link to="/profil/edycja-hasla"><base-button type="dark">Zmień hasło</base-button></router-link>
                 </div>
               </div>
               <div class="row base-cards-outer-wrapper">
-                <div class="col-lg-6">
+                <div class="col-lg-10 offset-md-1">
                   <base-card class="base-card">
                     <template v-slot:title>Dane personalne</template>
                     <template v-slot:content>
@@ -40,22 +39,6 @@ const userStore = useUserStore();
                       <p><span>Ulica i nr budynku: </span> {{ userStore.userData.address.street }} {{ userStore.userData.address.houseNumber }}</p>
                     </template>
                   </base-card>
-                </div>
-                <div class="col-lg-6">
-                  <div class="base-cards-inner-wrapper d-flex flex-column justify-content-between">
-                    <base-card class="base-card-sm">
-                      <template v-slot:title>Lorem, ipsum dolor.</template>
-                      <template v-slot:content>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi, nam!</p>
-                      </template>
-                    </base-card>
-                    <base-card class="base-card-sm">
-                      <template v-slot:title>Lorem, ipsum dolor.</template>
-                      <template v-slot:content>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi, nam!</p>
-                      </template>
-                    </base-card>
-                  </div>
                 </div>
               </div>
             </div>
@@ -90,13 +73,9 @@ div.wrapper {
   }
 
   div.buttons {
-    display: flex;
-    flex-direction: column;
-    align-self: flex-end;
     margin: 24px 0;
 
     @media (max-width: 992px) {
-      flex-direction: row;
       align-self: center;
     }
 
