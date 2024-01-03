@@ -5,57 +5,63 @@ import { useI18n } from 'vue-i18n';
 const userStore = useUserStore();
 const rentalStore = useRentalStore();
 const { t } = useI18n();
-rentalStore.fetchCustomers();
+rentalStore.fetchCars();
 </script>
 
 <template>
-  <section id="customers-list">
+  <section id="cars-list">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <breadcrumbs>
-            <router-link :to="{ name: 'panel-customers' }">Lista klientów</router-link>
+            <router-link :to="{ name: 'panel-cars' }">Zarządzanie flotą</router-link>
           </breadcrumbs>
           <welcome-message v-if="userStore.user" :name="userStore.user.firstname">
-            <template v-slot:info>Oto lista wszystkich zarejestrowanych klientów</template>
+            <template v-slot:info>Oto lista wszystkich samochodów</template>
           </welcome-message>
+          <div class="btn-container d-flex justify-content-end">
+            <router-link :to="{ name: 'panel-cars-add' }">
+              <base-button type="dark" class="m-0 mw-auto">
+                Dodaj nowy samochód
+              </base-button>
+            </router-link>
+          </div>
           <div class="wrapper d-flex flex-column">
             <div class="table-responsive d-flex flex-column">
               <table class="table">
                 <thead>
                   <tr>
-                    <th>{{ t('Account.Customer') }}</th>
-                    <th>Adres e-mail</th>
-                    <th>Numer telefonu</th>
-                    <th>Adres zamieszkania</th>
+                    <th>Samochód</th>
+                    <th>Rodzaj nadwozia</th>
+                    <th>Status</th>
+                    <th>Akcje</th>
                   </tr>
                 </thead>
-                <tbody v-if="rentalStore.foundCustomers">
-                  <tr v-for="customer in rentalStore.customers" :key="customer">
+                <tbody v-if="rentalStore.foundCars">
+                  <tr v-for="car in rentalStore.cars" :key="car">
                     <td>
                       <span>
-                        <img src="/frontend/images/icons/svg/profile.svg" class="me-2">
-                      </span>
-                      <span>
-                        {{ capitalizeFirstLetter(customer.firstName) }} {{ capitalizeFirstLetter(customer.lastName) }}
+                        {{ car.brand }} {{ car.model }}, {{ car.productionYear }} {{ car.engine }} {{ car.hoursepower }}km
                       </span>
                     </td>
                     <td>
                       <span>
-                        {{ customer.emailAddress }}
+                        {{ car.type }}
                       </span>
                     </td>
                     <td>
-                      {{ customer.address.phoneNumber }}
+                      {{ car.status ? "Aktywny" : "Nieaktywny" }}
                     </td>
                     <td>
-                      {{ customer.address.zipCode }} {{  customer.address.city }}, {{ customer.address.street }} {{ customer.address.houseNumber }}
+                      <button class="green-button">Edytuj parametry</button>
+                      <button class="blue-button">Edytuj wyposażenie</button>
+                      <button class="red-button">Usuń samochód</button>
                     </td>
                   </tr>
                 </tbody>
                 <tbody class="no-results" v-else>
                   <tr>
-                    <td colspan="6">Nie znaleziono klientów</td>
+                    <td colspan="6">Nie znaleziono samochodów</td>
                   </tr>
                 </tbody>
                 <tfoot>

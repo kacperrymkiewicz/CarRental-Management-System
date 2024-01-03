@@ -4,11 +4,13 @@ import axios from 'axios';
 export const useRentalStore = defineStore('rental', {
   state: () => ({
     rentals: [],
-    customers: []
+    customers: [],
+    cars: []
   }),
   getters: {
     foundRentals: (state) => state.rentals.length > 0,
-    foundCustomers: (state) => state.customers.length > 0
+    foundCustomers: (state) => state.customers.length > 0,
+    foundCars: (state) => state.cars.length > 0
   },
   actions: {
     async fetchRentals() {
@@ -21,6 +23,12 @@ export const useRentalStore = defineStore('rental', {
       await axios.get(`/Users`)
       .then((response) => {
         this.customers = response.data.data;
+      });
+    },
+    async fetchCars() {
+      await axios.get(`/Cars`)
+      .then((response) => {
+        this.cars = response.data.data;
       });
     },
     async cancelReservation(id) {

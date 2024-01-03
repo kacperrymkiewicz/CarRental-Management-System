@@ -12,6 +12,8 @@ import CarBookingDetailsView from '@/views/CarBookingDetailsView.vue'
 import UserRentals from '@/views/UserRentals.vue'
 import RentalsListView from '@/views/employee/RentalsListView.vue'
 import CustomersListView from '@/views/employee/CustomersListView.vue'
+import CarsListView from '@/views/employee/CarsListView.vue'
+import NewCarView from '@/views/employee/NewCarView.vue'
 
 const routes = [
   {
@@ -92,8 +94,18 @@ const routes = [
       },
       {
         path: 'samochody',
-        name: 'panel-cars',
-        component: ProfileEditPasswordView
+        children: [
+          {
+            path: '',
+            name: 'panel-cars',
+            component: CarsListView
+          },
+          {
+            path: 'dodaj',
+            name: 'panel-cars-add',
+            component: NewCarView
+          }
+        ]
       },
     ]
   },
